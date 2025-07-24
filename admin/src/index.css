@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: "Montserrat", sans-serif !important;
+    background: #f1f1f1 !important;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 5px !important;
+    height: 10px !important;
+}
+
+::-webkit-scrollbar-thumb {
+   background: #ccc !important;
+    
+}
+
+.MuiBadge-badge{
+    background: #ff5252 !important;
+}
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
+
+.btn-blue{
+  background: #3872fa !important;
+  color: #fff !important;
+  padding: 8px 19px !important;
+}
+
+.btn-blue:hover{
+  background: #3067e5 !important ;
+}
