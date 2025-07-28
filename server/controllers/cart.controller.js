@@ -123,7 +123,7 @@ export async function updateCartItemQtyController(req, res) {
 export async function deleteCartItemQtyController(req, res) {
     try {
         const userId = req.userId;
-        const { _id , productId} = req.body;
+        const { _id, productId } = req.body;
 
         if (!_id) {
             return res.status(400).json({
@@ -144,7 +144,7 @@ export async function deleteCartItemQtyController(req, res) {
         }
 
         const user = await UserModel.findOne({
-            _id:userId
+            _id: userId
         })
 
         const cartItem = user?.shopping_cart;
