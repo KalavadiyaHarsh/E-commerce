@@ -20,13 +20,13 @@ function ProductItem() {
                 <Link to={"/productDetails/:id"}>
                     <div className='img h-[250px]'>
                         <img
-                            src="https://serviceapi.spicezgold.com/download/1742463096955_hbhb1.jpg"
+                            src="Shirt.jpg"
                             alt="Product"
                             className='w-full h-full object-center'
                         />
 
                         <img
-                            src="https://serviceapi.spicezgold.com/download/1742463096956_hbhb2.jpg"
+                            src="Shirt2.jpg"
                             alt="Product"
                             className='w-full h-full object-center absolute top-0 left-0 opacity-0 group-hover:opacity-100 transition-all duration-500'
                         />

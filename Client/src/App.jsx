@@ -40,7 +40,7 @@ function App() {
   const [openProductDetailsModal, setOpenProductDetailsModal] = useState(false);
    const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
@@ -55,6 +55,7 @@ function App() {
   };
 
   const openAlertBox =(status,meg)=>{
+   
     if(status === 'success') {
       toast.success(meg);
     }
