@@ -44,7 +44,7 @@ const CartItems = (props) => {
         <div className='cartItem w-full p-3 flex items-center gap-4 pb-5 border-b border-[rgba(0,0,0,0.1)]'>
             <div className='img w-[15%] rounded-md overflow-hidden border boder-black '>
                 <Link to={'/product/7845'} className='group'>
-                    <img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full group-hover:scale-105 transition-all' />
+                    <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full group-hover:scale-105 transition-all' />
                 </Link>
             </div>
 

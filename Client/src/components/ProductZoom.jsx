@@ -170,12 +170,12 @@ import { Navigation } from 'swiper/modules';
 const ProductZoom = () => {
   // 🟡 Step 1: Image List
   const images = [
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/35-large_default/brown-bear-printed-sweater.jpg",
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/32-large_default/brown-bear-printed-sweater.jpg",
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/30-medium_default/brown-bear-printed-sweater.jpg",
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/31-medium_default/brown-bear-printed-sweater.jpg",
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/33-medium_default/brown-bear-printed-sweater.jpg",
-    "https://demos.codezeel.com/prestashop/PRS21/PRS210502/34-medium_default/brown-bear-printed-sweater.jpg",
+    "https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg",
+    "https://api.spicezgold.com/download/file_1734690981297_23990e6b-d01e-40fd-bb6b-98198db544c01714702040162RARERABBITMenComfortOpaqueCasualShirt2.jpg",
+    "https://api.spicezgold.com/download/file_1734690981299_c56f7a00-e9c5-43dc-8288-190cfc0fef3e1714702040062RARERABBITMenComfortOpaqueCasualShirt3.jpg",
+    "https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg",
+    "https://api.spicezgold.com/download/file_1734690981297_23990e6b-d01e-40fd-bb6b-98198db544c01714702040162RARERABBITMenComfortOpaqueCasualShirt2.jpg",
+    "https://api.spicezgold.com/download/file_1734690981299_c56f7a00-e9c5-43dc-8288-190cfc0fef3e1714702040062RARERABBITMenComfortOpaqueCasualShirt3.jpg",
   ];
 
   // 🟢 Step 2: useState for active image

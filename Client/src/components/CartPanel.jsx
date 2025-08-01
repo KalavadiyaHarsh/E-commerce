@@ -14,7 +14,7 @@ const CartPanel = () => {
             <div className='scroll w-full max-h-[300px] overflow-x-hidden overflow-y-scroll py-2 px-4 '>
                 <div className='cartItem w-full flex items-center gap-4  border-b border-[rgba(0,0,0,0.1)] py-3'>
                     <div className='img w-[25%] overflow-hidden h-[80px] rounded-lg  border boeder-[rgba(0,0,0,0.1)]'>
-                        <Link to={'/product/45875'} ><img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full hover:scale-105' /></Link>
+                        <Link to={'/product/45875'} ><img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full hover:scale-105' /></Link>
                     </div>
 
 
@@ -31,7 +31,7 @@ const CartPanel = () => {
 
                 <div className='cartItem w-full flex items-center gap-4  border-b border-[rgba(0,0,0,0.1)] py-3'>
                     <div className='img w-[25%] overflow-hidden h-[80px] rounded-lg  border boeder-[rgba(0,0,0,0.1)]'>
-                        <Link to={'/product/45875'} ><img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full hover:scale-105' /></Link>
+                        <Link to={'/product/45875'} ><img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full hover:scale-105' /></Link>
                     </div>
 
 
@@ -48,7 +48,7 @@ const CartPanel = () => {
 
                 <div className='cartItem w-full flex items-center gap-4  border-b border-[rgba(0,0,0,0.1)] py-3'>
                     <div className='img w-[25%] overflow-hidden h-[80px] rounded-lg  border boeder-[rgba(0,0,0,0.1)]'>
-                        <Link to={'/product/45875'} ><img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full hover:scale-105' /></Link>
+                        <Link to={'/product/45875'} ><img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full hover:scale-105' /></Link>
                     </div>
 
 
@@ -65,7 +65,7 @@ const CartPanel = () => {
 
                 <div className='cartItem w-full flex items-center gap-4  border-b border-[rgba(0,0,0,0.1)] py-3'>
                     <div className='img w-[25%] overflow-hidden h-[80px] rounded-lg  border boeder-[rgba(0,0,0,0.1)]'>
-                        <Link to={'/product/45875'} ><img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full hover:scale-105' /></Link>
+                        <Link to={'/product/45875'} ><img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full hover:scale-105' /></Link>
                     </div>
 
 
@@ -82,7 +82,7 @@ const CartPanel = () => {
 
                 <div className='cartItem w-full flex items-center gap-4  border-b border-[rgba(0,0,0,0.1)] py-3'>
                     <div className='img w-[25%] overflow-hidden h-[80px] rounded-lg  border boeder-[rgba(0,0,0,0.1)]'>
-                        <Link to={'/product/45875'} ><img src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/70-home_default/mug-today-is-a-good-day.jpg" alt="" className='w-full hover:scale-105' /></Link>
+                        <Link to={'/product/45875'} ><img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" alt="" className='w-full hover:scale-105' /></Link>
                     </div>
 
 
