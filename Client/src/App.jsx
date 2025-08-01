@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
@@ -30,6 +30,7 @@ import CheckOut from './pages/CheckOut'
 import MyAccount from './pages/MyAccount'
 import MyList from './pages/MyList'
 import Orders from './pages/Orders'
+import { fetchDataFromApi } from './utils/api'
 
 
 const MyContext = createContext();
@@ -41,6 +42,7 @@ function App() {
    const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
   const [isLogin, setIsLogin] = useState(false)
+  const [userData, setUserData] = useState(null)
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
@@ -53,6 +55,22 @@ function App() {
   const toggleCartPanel = (newOpen) => () => {
     setOpenCartPanel(newOpen);
   };
+
+   useEffect(()=>{
+        
+    const token = localStorage.getItem('accesstoken');
+
+    if(token !== undefined && token!==null  && token !==""){
+      setIsLogin(true)
+
+      fetchDataFromApi("/api/user/user-details").then((res)=>{
+        console.log(res)
+        setUserData(res.data);
+      })
+    }else{
+      setIsLogin(false)
+    }
+    },[isLogin])
 
   const openAlertBox =(status,meg)=>{
    
@@ -71,7 +89,9 @@ function App() {
       toggleCartPanel,
       openAlertBox,
       isLogin,
-      setIsLogin
+      setIsLogin,
+      setUserData,
+      userData
   }
 
 

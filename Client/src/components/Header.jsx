@@ -22,6 +22,7 @@ import { IoIosLogOut } from "react-icons/io";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
+import { fetchDataFromApi } from '../utils/api';
 
 
 
@@ -49,6 +50,22 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+   const logout = () => {
+  setAnchorEl(null);
+  
+  fetchDataFromApi("/api/user/logout").then((res) => {
+    if (res?.success) {
+      localStorage.removeItem("accesstoken");
+      localStorage.removeItem("refreshToken");
+      context.setIsLogin(false);
+    } else {
+      console.error("Logout failed:", res?.message || res);
+    }
+  }).catch((err) => {
+    console.error("Error logging out:", err);
+  });
+};
 
 
   return (
@@ -100,8 +117,8 @@ const Header = () => {
                         </Button>
 
                         <div className='info flex flex-col '>
-                          <h4 className='text-[14px] capitalize leading-3 text-[rgba(0,0,0,0.7)] text-left justify-start font-[500]'>Harsh Kalavadiya</h4>
-                          <span className='text-[14px] lowercase text-[rgba(0,0,0,0.7)] text-left justify-start font-[400]'>harshkalavadiya192@gmail.com</span>
+                          <h4 className='text-[14px] capitalize leading-3 text-[rgba(0,0,0,0.7)] text-left justify-start font-[500]'>{context?.userData?.name}</h4>
+                          <span className='text-[14px] lowercase text-[rgba(0,0,0,0.7)] text-left justify-start font-[400]'>{context?.userData?.email}</span>
                         </div>
                       </Button>
 
@@ -160,9 +177,11 @@ const Header = () => {
                           </MenuItem>
                         </Link>
 
-                        <MenuItem onClick={handleClose} className='flex items-center gap-2 hover:text-primary !text-[14px] !py-2' >
-                          <IoIosLogOut /> Logout
-                        </MenuItem>
+                        <Link to={"/"} >
+                          <MenuItem onClick={logout} className='flex items-center gap-2 hover:text-primary !text-[14px] !py-2' >
+                            <IoIosLogOut /> Logout
+                          </MenuItem>
+                        </Link>
 
                       </Menu>
                     </>
