@@ -90,7 +90,6 @@ const Register = () => {
                 localStorage.setItem("accesstoken", res?.data?.accesstoken);
                 localStorage.setItem("refreshToken", res?.data?.refreshToken);
 
-                console.log(res)
                 history("/")
                 context.setIsLogin(true)
             } else {

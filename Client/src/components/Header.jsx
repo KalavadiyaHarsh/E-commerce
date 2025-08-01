@@ -144,7 +144,7 @@ const Header = () => {
                               '&::before': {
                                 content: '""',
                                 display: 'block',
-                                position: 'absolute',
+                                position: 'absolute', 
                                 top: 0,
                                 right: 14,
                                 width: 10,
