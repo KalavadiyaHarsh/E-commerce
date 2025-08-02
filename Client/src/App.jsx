@@ -39,14 +39,14 @@ const MyContext = createContext();
 function App() {
 
   const [openProductDetailsModal, setOpenProductDetailsModal] = useState(false);
-   const [fullWidth, setFullWidth] = React.useState(true);
+  const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
   const [isLogin, setIsLogin] = useState(false)
   const [userData, setUserData] = useState(null)
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
-  
+
 
   const handleCloseProductDetailsModal = () => {
     setOpenProductDetailsModal(false);
@@ -56,71 +56,71 @@ function App() {
     setOpenCartPanel(newOpen);
   };
 
-   useEffect(()=>{
-        
+  useEffect(() => {
+
     const token = localStorage.getItem('accesstoken');
 
-    if(token !== undefined && token!==null  && token !==""){
+    if (token !== undefined && token !== null && token !== "") {
       setIsLogin(true)
 
-      fetchDataFromApi("/api/user/user-details").then((res)=>{
-        
+      fetchDataFromApi("/api/user/user-details").then((res) => {
+
         setUserData(res.data);
       })
-    }else{
+    } else {
       setIsLogin(false)
     }
-    },[isLogin])
+  }, [isLogin])
 
-  const openAlertBox =(status,meg)=>{
-   
-    if(status === 'success') {
+  const openAlertBox = (status, meg) => {
+
+    if (status === 'success') {
       toast.success(meg);
     }
-    if(status === 'error') {
+    if (status === 'error') {
       toast.error(meg);
     }
   }
 
   const values = {
-      setOpenProductDetailsModal,
-      setOpenCartPanel,
-      openCartPanel,
-      toggleCartPanel,
-      openAlertBox,
-      isLogin,
-      setIsLogin,
-      setUserData,
-      userData
+    setOpenProductDetailsModal,
+    setOpenCartPanel,
+    openCartPanel,
+    toggleCartPanel,
+    openAlertBox,
+    isLogin,
+    setIsLogin,
+    setUserData,
+    userData
   }
 
 
   return (
     <div>
       <BrowserRouter>
-      <MyContext.Provider value={values}>
-        <Header />
-        <Routes>
-          <Route path={"/"} exact={true} element={<Home />} />
-          <Route path={"/productListing"} exact={true} element={<ProductListing />} />
-          <Route path={"/productDetails/:id"} exact={true} element={<ProductDetails />} />
-          <Route path={"/login"} exact={true} element={<Login />} />
-          <Route path={"/register"} exact={true} element={<Register />} />
-          <Route path={"/cart"} exact={true} element={<CartPage />} />
-          <Route path={"/verify"} exact={true} element={<Verify />} />
-          <Route path={"/forgot-password"} exact={true} element={<ForgotPassword />} />
-          <Route path={"/checkout"} exact={true} element={<CheckOut />} />
-          <Route path={"/my-account"} exact={true} element={<MyAccount />} />
-          <Route path={"/my-list"} exact={true} element={<MyList />} />
-          <Route path={"/my-orders"} exact={true} element={<Orders />} />
-        </Routes>
-        <Footer />
+        <MyContext.Provider value={values}>
+          <Header />
+          <Routes>
+            <Route path={"/"} exact={true} element={<Home />} />
+            <Route path={"/productListing"} exact={true} element={<ProductListing />} />
+            <Route path={"/productDetails/:id"} exact={true} element={<ProductDetails />} />
+            <Route path={"/login"} exact={true} element={<Login />} />
+            <Route path={"/register"} exact={true} element={<Register />} />
+            <Route path={"/cart"} exact={true} element={<CartPage />} />
+            <Route path={"/verify"} exact={true} element={<Verify />} />
+            <Route path={"/forgot-password"} exact={true} element={<ForgotPassword />} />
+            <Route path={"/checkout"} exact={true} element={<CheckOut />} />
+            <Route path={"/my-account"} exact={true} element={<MyAccount />} />
+            <Route path={"/my-list"} exact={true} element={<MyList />} />
+            <Route path={"/my-orders"} exact={true} element={<Orders />} />
+          </Routes>
+          <Footer />
         </MyContext.Provider>
       </BrowserRouter>
 
       <Toaster />
 
-       <Dialog
+      <Dialog
         open={openProductDetailsModal}
         fullWidth={fullWidth}
         maxWidth={maxWidth}
@@ -130,24 +130,24 @@ function App() {
         className='ProductDetailsModal'
       >
         <DialogContent>
-         <div className='ProductDetailsModalContainer flex items-center w-full relative'>
-          <Button className='!w-[40px] h-[40px] !min-w-[40px] !rounded-full !text-black !absolute top-[-10px] right-[-10px]' onClick={handleCloseProductDetailsModal}><IoClose /></Button>
-          <div className='col1 w-[40%]'>
+          <div className='ProductDetailsModalContainer flex items-center w-full relative'>
+            <Button className='!w-[40px] h-[40px] !min-w-[40px] !rounded-full !text-black !absolute top-[-10px] right-[-10px]' onClick={handleCloseProductDetailsModal}><IoClose /></Button>
+            <div className='col1 w-[40%]'>
               <ProductZoom />
+            </div>
+            <div className='col2 w-[60%] pl-5'>
+              <ProductDetailsComponent />
+            </div>
           </div>
-          <div className='col2 w-[60%] pl-5'>
-            <ProductDetailsComponent />
-          </div>
-         </div>
-        </DialogContent>   
+        </DialogContent>
       </Dialog>
 
 
-      
+
     </div>
   )
 }
 
 export default App
 
-export {MyContext}
+export { MyContext }

@@ -33,7 +33,7 @@ const SignUp = () => {
         })
     }
 
-  //  const valideValue = Object.values(formFields).every(el => el)
+    //  const valideValue = Object.values(formFields).every(el => el)
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,7 +61,7 @@ const SignUp = () => {
             if (res?.error !== true) {
                 setIsLoading(false);
                 context.openAlertBox("success", res?.message);
-                localStorage.setItem("userEmail",formFields.email)
+                localStorage.setItem("userEmail", formFields.email)
                 setFormFields({
                     name: "",
                     email: "",

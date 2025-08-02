@@ -45,3 +45,19 @@ export const fetchDataFromApi = async (url) => {
     }
 }
 
+
+export const editData = async (url, updatedData) => {
+     try {
+        const response = await axios.put(apiUrl + url, updatedData, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return response.data;
+
+    } catch (error) {
+        console.error("Error in editData:", error);
+        return { success: false, error };
+    }
+}

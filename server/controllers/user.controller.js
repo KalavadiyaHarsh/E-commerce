@@ -508,7 +508,7 @@ export async function forgotPasswordController(req, res) {
         return res.json({
             message: "Check your email",
             error: false,
-            success: true  
+            success: true
         });
 
     } catch (error) {
