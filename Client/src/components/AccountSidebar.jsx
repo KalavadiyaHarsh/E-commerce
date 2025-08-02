@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { MyContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
-import { editData } from '../utils/api';
+import { uploadImage } from '../utils/api';
 
 const AccountSidebar = () => {
 
@@ -41,7 +41,7 @@ const AccountSidebar = () => {
                     selectedImages.push(file);
                     formData.append(`avatar`, file);
 
-                    editData("/api/user/user-avatar", formData).then((res) => {
+                    uploadImage("/api/user/user-avatar", formData).then((res) => {
                         //console.log(res.avatar)
                         setUploading(false);
                         let avatar = [];
