@@ -7,10 +7,14 @@ import { MyContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import { editData } from '../utils/api';
 import { CircularProgress } from '@mui/material';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
+
 const MyAccount = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [userId, setUserId] = useState("")
+  const [phone, setPhone] = useState('');
 
 
   const [formFields, setFormFields] = useState({
@@ -40,6 +44,14 @@ const MyAccount = () => {
         email: context?.userData?.email,
         mobile: context?.userData?.mobile
       })
+      let ph = String(context?.userData?.mobile || '');
+
+      if (!ph.startsWith('+')) {
+        ph = '+91' + ph;
+      }
+
+      setPhone(ph);
+
     }
   }, [context?.userData])
 
@@ -70,7 +82,7 @@ const MyAccount = () => {
       return;
     }
 
-    if (formFields.mobile === "") {
+    if (formFields.mobile.trim() === "") {
       context.openAlertBox("error", "Please add mobile Number!");
       setIsLoading(false);
       return;
@@ -129,13 +141,26 @@ const MyAccount = () => {
                     name='email'
                     value={formFields.email}
                     onChange={onChangeInput}
-                    InputProps={{ readOnly: true }}
+                    disabled={true}
                   />
                 </div>
               </div>
 
               <div className="w-[48%] mb-5">
-                <TextField
+                <PhoneInput
+                  defaultCountry="in"
+                  value={phone}
+                  disabled={isLoading}
+                  onChange={(phone) => {
+                    setPhone(phone);
+                    setFormFields((prev) => ({
+                      ...prev,
+                      mobile: phone
+                    }));
+                  }}
+                />
+
+                {/* <TextField
                   label="Phone Number"
                   variant="outlined"
                   size="small"
@@ -143,7 +168,7 @@ const MyAccount = () => {
                   name='mobile'
                   value={formFields.mobile}
                   onChange={onChangeInput}
-                />
+                /> */}
               </div>
 
               <div className="flex gap-4">

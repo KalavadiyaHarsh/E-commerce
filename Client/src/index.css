@@ -284,42 +284,47 @@ input[type="number"]::-webkit-outer-spin-button {
     appearance: none;
 }
 
-.reviwescroll::-webkit-scrollbar{width: 5px !important;}
-.reviwescroll::-webkit-scrollbar-thumb{background: #ccc !important;}
+.reviwescroll::-webkit-scrollbar {
+    width: 5px !important;
+}
 
-.btn-Org{
+.reviwescroll::-webkit-scrollbar-thumb {
+    background: #ccc !important;
+}
+
+.btn-Org {
     background: #ff5252 !important;
     color: white !important;
 }
 
-.btn-Org:hover{
+.btn-Org:hover {
     background-color: #373737 !important;
     color: #ccc !important;
 }
 
-.btn-rg{
+.btn-rg {
     color: #ff5252 !important;
-   border: 1px solid #ff5252 !important;
+    border: 1px solid #ff5252 !important;
     background: transparent !important;
-    
+
 }
 
-.btn-rg:hover{
+.btn-rg:hover {
     background-color: #373737 !important;
     color: #ccc !important;
 }
 
-.btn-sm{
+.btn-sm {
     min-width: 30px !important;
     height: 30px !important;
     font-size: 13px !important;
     padding: 10px 10px !important;
-    
+
 }
 
 .CartPanel .MuiPaper-root {
-    width: 400px ;
-   overflow-x: hidden !important;
+    width: 400px;
+    overflow-x: hidden !important;
 }
 
 #size-menu .MuiButtonBase-root {
@@ -327,22 +332,22 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .otpBox input {
-  border: 1px solid rgba(0, 0, 0, 0.3) !important;
-  outline: none !important;
-  border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    outline: none !important;
+    border-radius: 4px;
 }
 
 .otpBox input:focus {
-  border: 1px solid rgba(0, 0, 0, 0.7) !important;
+    border: 1px solid rgba(0, 0, 0, 0.7) !important;
 }
 
 .otpPage .container {
-  height: 90vh;
-  display: flex;
+    height: 90vh;
+    display: flex;
 }
 
 .scrol::-webkit-scrollbar {
-    width: 5px !important;   
+    width: 5px !important;
 }
 
 .scrol::-webkit-scrollbar-thumb {
@@ -356,33 +361,50 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
 .myAccountTabs li a {
-  position: relative;
-  display: block;
+    position: relative;
+    display: block;
 }
 
 .myAccountTabs li a::before {
-  content: '';
-  width: 3px;
-  height: 50%;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  background: #ff5252;
-  transition: all 0.3s ease-in-out;
-  opacity: 0;
+    content: '';
+    width: 3px;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: #ff5252;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
 }
 
 .myAccountTabs li a.isActive::before {
-  height: 100%;
-  opacity: 1;
-  top: 0;
+    height: 100%;
+    opacity: 1;
+    top: 0;
 }
 
 .myAccountTabs li a.isActive button svg {
-  color: #ff5252;
+    color: #ff5252;
 }
 
-button .MuiCircularProgress-root{
+button .MuiCircularProgress-root {
     width: 30px !important;
     height: 30px !important;
+}
+
+.react-international-phone-input {
+    width: 100% !important;
+}
+
+.react-international-phone-country-selector {
+    width: 55px !important;
+}
+
+.react-international-phone-input-container {
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.customDialogPaper {
+    width: 700px !important;
+    max-width: 700px !important;
 }

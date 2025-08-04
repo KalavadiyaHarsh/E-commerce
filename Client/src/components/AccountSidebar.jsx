@@ -6,6 +6,7 @@ import { MyContext } from '../App';
 import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import { uploadImage } from '../utils/api';
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const AccountSidebar = () => {
 
@@ -115,12 +116,20 @@ const AccountSidebar = () => {
             </div>
 
             {/* Menu Links */}
-            <ul className='list-none pb-5 bg-[#f1f1f1] myAccountTabs'>
+            <ul className='list-none  bg-[#f1f1f1] myAccountTabs'>
 
                 <li className='w-full'>
                     <NavLink to="/my-account" end className={({ isActive }) => isActive ? "isActive" : ""}>
                         <Button className="w-full !text-left !py-2 !px-5 !justify-start capitalize !text-[rgba(0,0,0,0.8)] !rounded-none flex items-center gap-2">
                             <FaUser className="text-[15px]" /> My Profile
+                        </Button>
+                    </NavLink>
+                </li>
+
+                <li className='w-full'>
+                    <NavLink to="/address" end className={({ isActive }) => isActive ? "isActive" : ""}>
+                        <Button className="w-full !text-left !py-2 !px-5 !justify-start capitalize !text-[rgba(0,0,0,0.8)] !rounded-none flex items-center gap-2">
+                            <FaMapMarkerAlt className="text-[15px]" /> Address
                         </Button>
                     </NavLink>
                 </li>
