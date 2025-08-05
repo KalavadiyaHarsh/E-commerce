@@ -8,6 +8,18 @@ import { useState } from 'react';
 import Badge from '../components/Badge';
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom'
+import Progress from '../components/progress';
+import { MdModeEdit } from "react-icons/md";
+import { IoEye } from "react-icons/io5";
+import { MdDelete } from "react-icons/md";
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import Pagination from '@mui/material/Pagination';
+
+
+
+
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 
@@ -378,9 +390,9 @@ const Dashboard = () => {
       </div>
 
 
-      <div className='card mt-3 bg-white rounded-lg shadow-md '>
+      <div className='card mt-3 bg-white rounded-lg shadow-md'>
         <div className='flex items-center justify-between p-5'>
-          <h2 className='text-[19px] font-[600]'>Products</h2>
+          <h2 className='text-[19px] font-[600]'>Products  (Tailwind CSS Table)</h2>
         </div>
 
         <div className="overflow-x-scroll">
@@ -442,13 +454,400 @@ const Dashboard = () => {
 
                 <td className="py-2 px-4 border-b ">
                   <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={40} type="success" />
                 </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr >
+                <td className="py-2 px-4 border-b">
+                  <div>
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div className='flex items-center gap-4 w-[350px]'>
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                      <Link to='/product/45745'>
+                        <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+
+                    <div className='w-[80%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
+
+                      <span className='text-[12px]'>Books</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Electronics
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Women
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div class="flex items-center gap-2 flex-col leading-4">
+                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
+                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={90} type="success" />
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr >
+                <td className="py-2 px-4 border-b">
+                  <div>
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div className='flex items-center gap-4 w-[350px]'>
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                      <Link to='/product/45745'>
+                        <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+
+                    <div className='w-[80%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
+
+                      <span className='text-[12px]'>Books</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Electronics
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Women
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div class="flex items-center gap-2 flex-col leading-4">
+                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
+                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={10} type="warning" />
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr >
+                <td className="py-2 px-4 border-b">
+                  <div>
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div className='flex items-center gap-4 w-[350px]'>
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                      <Link to='/product/45745'>
+                        <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+
+                    <div className='w-[80%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
+
+                      <span className='text-[12px]'>Books</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Electronics
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Women
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div class="flex items-center gap-2 flex-col leading-4">
+                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
+                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={30} type="error" />
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr >
+                <td className="py-2 px-4 border-b">
+                  <div>
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div className='flex items-center gap-4 w-[350px]'>
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                      <Link to='/product/45745'>
+                        <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+
+                    <div className='w-[80%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
+
+                      <span className='text-[12px]'>Books</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Electronics
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Women
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div class="flex items-center gap-2 flex-col leading-4">
+                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
+                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={70} type="warning" />
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              <tr >
+                <td className="py-2 px-4 border-b">
+                  <div>
+                    <Checkbox {...label} size="small" />
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div className='flex items-center gap-4 w-[350px]'>
+                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                      <Link to='/product/45745'>
+                        <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
+                      </Link>
+                    </div>
+
+                    <div className='w-[80%]'>
+                      <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
+
+                      <span className='text-[12px]'>Books</span>
+                    </div>
+
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Electronics
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  Women
+                </td>
+
+                <td className="py-2 px-4 border-b">
+                  <div class="flex items-center gap-2 flex-col leading-4">
+                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
+                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
+                  </div>
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
+                  <Progress value={100} type="error" />
+                </td>
+
+                <td className="py-2 px-4 border-b ">
+                  <div className='flex items-center gap-1'>
+                    <Tooltip title="Edit" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="View" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete" placement='top'>
+                      <IconButton>
+                        <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+
+                      </IconButton>
+                    </Tooltip>
+                  </div>
+
+                </td>
+
               </tr>
 
 
             </tbody>
           </table>
         </div>
+
+        <div className='flex items-center justify-end py-4 pr-3'>
+          <Pagination count={10} color="primary" />
+        </div>
+
 
 
       </div>

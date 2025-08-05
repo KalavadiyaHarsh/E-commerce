@@ -35,3 +35,7 @@ body{
 .btn-blue:hover{
   background: #3067e5 !important ;
 }
+
+.myCustomBtn{
+  border: 1px solid rgba(0,0,0,0.3) !important;
+}
