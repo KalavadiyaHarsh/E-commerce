@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TbLayoutDashboard } from "react-icons/tb";
 import { FaRegImage } from "react-icons/fa";
@@ -11,10 +11,14 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from 'react-collapse';
 import { FaAngleUp } from "react-icons/fa6";
+import { MyContext } from '../App';
 
 
 
 const Sidebar = () => {
+
+      const context = useContext(MyContext)
+  
 
   const [submenuIndex, setSubmenuIndex] = useState(null)
   const isOpenSubMenu = (index) => {
@@ -30,7 +34,7 @@ const Sidebar = () => {
     <>
       <div className='sidebar fixed top-0 left-0 bg-[#fff] w-[18%] h-full border-r border-[rgba(0,0,0,0.1)] py-2 px-4'>
         <div className='py-2 w-full'>
-          <Link to={"/"}><img src="https://ecme-react.themenate.net/img/logo/logo-light-full.png" className='w-[119px]' /></Link>
+          <Link to={"/"}><img src="admin logo.png" className='w-[119px]' /></Link>
         </div>
 
         <ul className='mt-4'>
@@ -88,9 +92,7 @@ const Sidebar = () => {
                 </li>
 
                 <li className='w-full'>
-                  <Link to={"/products"}>
-                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Product Upload</Button>
-                  </Link>
+                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3' onClick={context.handleClickOpen}><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]' ></span>Product Upload</Button>
                 </li>
               </ul>
             </Collapse>

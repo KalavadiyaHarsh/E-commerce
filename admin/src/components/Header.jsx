@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@mui/material/Button';
 import { RiMenu2Fill } from "react-icons/ri";
 import Badge from '@mui/material/Badge';
@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import { FiUser } from "react-icons/fi";
 import { FaSignOutAlt } from "react-icons/fa";
+import { MyContext } from '../App';
 
 
 
@@ -33,11 +34,12 @@ const Header = () => {
         setAnchorMyAcc(null);
     };
 
+    const context = useContext(MyContext)
 
     return (
-        <header className='w-full h-[50px] pl-64 pr-7 py-2 bg-[#f1f1f1] flex items-center justify-between shadow-md'>
+        <header className={`w-full h-[50px]  pr-7 py-2 bg-[#f1f1f1] flex items-center justify-between shadow-md ${context.isSidebarOpen===true ? 'pl-60' : 'pl-3'} transition-all`}>
             <div className='part1'>
-                <Button className='!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]'>
+                <Button className='!w-[40px] !h-[40px] !rounded-full !min-w-[40px] !text-[rgba(0,0,0,0.8)]' onClick={()=>context.setIsSidebarOpen(!context.isSidebarOpen)} >
                     <RiMenu2Fill className='text-[22px] text-[rgba(0,0,0,0.8)]' />
                 </Button>
             </div>
