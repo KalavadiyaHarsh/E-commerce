@@ -21,6 +21,7 @@ import AddCategory from './pages/AddCategory'
 import SubCatList from './pages/SubCatList'
 import AddSubCatList from './pages/AddSubCategory'
 import AddSubCategory from './pages/AddSubCategory'
+import toast, { Toaster } from 'react-hot-toast';
 
 const MyContext = createContext();
 
@@ -41,7 +42,7 @@ function App() {
       model: 'Add Product'
     });
   };
-  
+
 
   const handleClose = () => {
     setIsOpenFullScreenPanle({
@@ -49,6 +50,15 @@ function App() {
     });
   };
 
+  const openAlertBox = (status, msg) => {
+    if (status === 'success') {
+      toast.success(msg);
+    } else if (status === 'error') {
+      toast.error(msg);
+    } else {
+      toast(msg);
+    }
+  };
 
   const router = createBrowserRouter([
     {
@@ -184,14 +194,15 @@ function App() {
     setIsSidebarOpen,
     isOpenFullScreenPanle,
     setIsOpenFullScreenPanle,
-    handleClickOpen
+    handleClickOpen,
+    openAlertBox,
   };
 
   return (
     <>
       <MyContext.Provider value={values}>
         <RouterProvider router={router} />
-
+        <Toaster />
         <Dialog
           fullScreen
           open={isOpenFullScreenPanle.open}

@@ -3,7 +3,6 @@ import { Button } from '@mui/material';
 
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom'
-import Progress from '../components/progress';
 import { MdModeEdit } from "react-icons/md";
 import { IoEye } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
