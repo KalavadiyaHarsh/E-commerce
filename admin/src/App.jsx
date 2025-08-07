@@ -18,6 +18,9 @@ import HomeSliderBanners from './pages/HomeSliderBanners'
 import AddHomeSlide from './pages/AddHomeSlide'
 import Category from './pages/Category'
 import AddCategory from './pages/AddCategory'
+import SubCatList from './pages/SubCatList'
+import AddSubCatList from './pages/AddSubCategory'
+import AddSubCategory from './pages/AddSubCategory'
 
 const MyContext = createContext();
 
@@ -140,6 +143,29 @@ function App() {
       )
     },
 
+    {
+      path: "/sabcategory/list",
+      element: (
+        <>
+          <section className='main w-full'>
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`sidebarWrapper overflow-hidden transition-all duration-1000 ease-in-out ${isSidebarOpen === true ? 'w-[18%]' : 'hidden'}`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
+              >
+                <SubCatList />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
     // {
     //   path: "/products/upload",
     //   exact: true,
@@ -202,6 +228,10 @@ function App() {
 
           {
             isOpenFullScreenPanle?.model === "Add New Category" && <AddCategory />
+          }
+
+          {
+            isOpenFullScreenPanle?.model === "Add New Sub Category" && <AddSubCategory />
           }
 
         </Dialog>
