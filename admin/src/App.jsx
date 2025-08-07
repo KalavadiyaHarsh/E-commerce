@@ -14,6 +14,10 @@ import Typography from '@mui/material/Typography';
 import { IoClose } from "react-icons/io5";
 import Slide from '@mui/material/Slide';
 import { Button } from '@mui/material'
+import HomeSliderBanners from './pages/HomeSliderBanners'
+import AddHomeSlide from './pages/AddHomeSlide'
+import Category from './pages/Category'
+import AddCategory from './pages/AddCategory'
 
 const MyContext = createContext();
 
@@ -34,6 +38,7 @@ function App() {
       model: 'Add Product'
     });
   };
+  
 
   const handleClose = () => {
     setIsOpenFullScreenPanle({
@@ -82,6 +87,52 @@ function App() {
                 className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
               >
                 <Products />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+    {
+      path: "/homeSlider/list",
+      element: (
+        <>
+          <section className='main w-full'>
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`sidebarWrapper overflow-hidden transition-all duration-1000 ease-in-out ${isSidebarOpen === true ? 'w-[18%]' : 'hidden'}`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
+              >
+                <HomeSliderBanners />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+    {
+      path: "/category/list",
+      element: (
+        <>
+          <section className='main w-full'>
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`sidebarWrapper overflow-hidden transition-all duration-1000 ease-in-out ${isSidebarOpen === true ? 'w-[18%]' : 'hidden'}`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
+              >
+                <Category />
               </div>
             </div>
           </section>
@@ -143,6 +194,14 @@ function App() {
           </AppBar>
           {
             isOpenFullScreenPanle?.model === "Add Product" && <AddProduct />
+          }
+
+          {
+            isOpenFullScreenPanle?.model === "Add Home Slide" && <AddHomeSlide />
+          }
+
+          {
+            isOpenFullScreenPanle?.model === "Add New Category" && <AddCategory />
           }
 
         </Dialog>

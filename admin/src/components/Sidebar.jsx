@@ -56,12 +56,17 @@ const Sidebar = () => {
 
             <Collapse isOpened={submenuIndex === 1 ? true : false}>
               <ul className='w-full'>
-                <li className='w-full'>
-                  <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Add Home Banner Slider</Button>
-                </li>
-
+                <Link to={'/homeSlider/list'}>
                 <li className='w-full'>
                   <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Home Slides List</Button>
+                </li>
+                </Link>
+
+                <li className='w-full'>
+                  <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3' onClick={() => context.setIsOpenFullScreenPanle({
+                        open: true,
+                        model: 'Add Home Slide'
+                    })}><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Add Home Banner Slider</Button>
                 </li>
               </ul>
             </Collapse>
@@ -108,15 +113,16 @@ const Sidebar = () => {
             <Collapse isOpened={submenuIndex === 3 ? true : false}>
               <ul className='w-full'>
                 <li className='w-full'>
-                  <Link to={"/categories"}>
+                  <Link to={"/category/list"}>
                     <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>category List</Button>
                   </Link>
                 </li>
 
-                <li className='w-full'>
-                  <Link to={"/category/add"}>
-                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Add a category</Button>
-                  </Link>
+                <li className='w-full'> 
+                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3' onClick={() => context.setIsOpenFullScreenPanle({
+                        open: true,
+                        model: 'Add New Category'
+                    })}><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]' ></span>Add a category</Button>
                 </li>
 
                 <li className='w-full'>
