@@ -360,6 +360,7 @@ export async function updatedCategory(req, res) {
       error: false,
       success: true,
       category: category,
+      message: "Category updated successfully",
     });
   } catch (error) {
     return res.status(500).json({

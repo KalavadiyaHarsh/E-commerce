@@ -22,6 +22,7 @@ import SubCatList from './pages/SubCatList'
 import AddSubCatList from './pages/AddSubCategory'
 import AddSubCategory from './pages/AddSubCategory'
 import toast, { Toaster } from 'react-hot-toast';
+import EditCategory from './pages/EditCategory'
 
 const MyContext = createContext();
 
@@ -33,7 +34,8 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isOpenFullScreenPanle, setIsOpenFullScreenPanle] = useState({
     open: false,
-    model: ''
+    model: '',
+    id: ""
   })
 
   const handleClickOpen = () => {
@@ -243,6 +245,10 @@ function App() {
 
           {
             isOpenFullScreenPanle?.model === "Add New Sub Category" && <AddSubCategory />
+          }
+
+          {
+            isOpenFullScreenPanle?.model === "Edit Category" && <EditCategory />
           }
 
         </Dialog>

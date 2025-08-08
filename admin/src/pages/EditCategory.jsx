@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import UploadBox from '../components/UploadBox';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -6,12 +6,12 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IoClose } from "react-icons/io5";
 import { Button } from '@mui/material';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { deleteImages, fetchDataFromApi, postData } from '../utils/api';
+import { deleteImages, editData, fetchDataFromApi, postData } from '../utils/api';
 import { MyContext } from '../App';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-const AddCategory = () => {
+const EditCategory = () => {
 
     const context = useContext(MyContext);
 
@@ -23,6 +23,30 @@ const AddCategory = () => {
     })
 
     const [previews, setPreviews] = useState([]);
+
+    // useEffect(() => {
+    //     const id = context?.isOpenFullScreenPanle?.id;
+
+    //     fetchDataFromApi(`/api/category/${id}`, formFields).then((res) => {
+    //         console.log(res?.category?.name)
+    //         formFields.name = res?.category?.name;
+    //         setPreviews(res?.category?.images)
+    //     })
+    // }, [1000]);
+
+    useEffect(() => {
+        const id = context?.isOpenFullScreenPanle?.id;
+        if (id) {
+            fetchDataFromApi(`/api/category/${id}`).then((res) => {
+                setFormFields({
+                    name: res?.category?.name || "",
+                   // images: res?.category?.images || []
+                });
+                setPreviews(res?.category?.images || []);
+            });
+        }
+    }, [context?.isOpenFullScreenPanle?.id]);
+
 
 
     const onChangeInput = (e) => {
@@ -37,14 +61,8 @@ const AddCategory = () => {
 
     const setPreviewsFun = (newImage) => {
         setPreviews((prev) => [...prev, newImage]);
-        formFields.images = newImage;
-        // setFormFields(() => {
-        //     return {
-        //         ...previews,
-        //         images: newImage
-        //     }
-        // })
-
+         formFields.images = newImage;
+       
     };
 
     const removeImg = (image, index) => {
@@ -56,13 +74,7 @@ const AddCategory = () => {
             setTimeout(() => {
                 setPreviews(imageArr);
                 formFields.images = imageArr;
-
-                // setFormFields(() => (
-                //     {
-                //         ...previews,
-                //         images: imageArr
-                //     }
-                // ))
+              
             }, 100);
         })
 
@@ -84,7 +96,7 @@ const AddCategory = () => {
             setIsLoading(false);
             return;
         }
-        postData("/api/category/create", formFields).then((res) => {
+        editData(`/api/category/${context?.isOpenFullScreenPanle?.id}`, formFields).then((res) => {
             if (res?.error !== true) {
                 setTimeout(() => {
                     setIsLoading(false);
@@ -93,10 +105,8 @@ const AddCategory = () => {
                         open: false
                     });
 
-                    window.location.reload();  // ✅ Reload the page to show new category
+                     window.location.reload();  // ✅ Reload the page to show new category
                 }, 1500)
-
-
 
             } else {
                 context.openAlertBox("error", res?.message);
@@ -114,7 +124,7 @@ const AddCategory = () => {
                     <div className='grid grid-cols-1 mb-3'>
                         <div className='col w-[25%]'>
                             <h3 className='text-[14px] font-[500] mb-1'>Category Name</h3>
-                            <input type="text" name='name' value={formFields.value} className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] p-3 text-sm' onChange={onChangeInput} />
+                            <input type="text" name='name' value={formFields.name} className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] p-3 text-sm' onChange={onChangeInput} />
                         </div>
                     </div>
                     <br />
@@ -131,7 +141,7 @@ const AddCategory = () => {
                                         <span className='absolute -top-[10px] -right-[10px] text-[16px] w-[20px] h-[20px] bg-red-700 overflow-hidden  rounded-full cursor-pointer z-50 flex items-center justify-center text-white' onClick={() => removeImg(image, index)}><IoClose /></span>
 
                                         <div className='uploadBox  relative rounded-md overflow-hidden border border-dashed border-[rgba(0,0,0,0.3)] h-[150px] w-[100%] bg-gray-100 cursor-pointer hover:bg-gray-200 flex flex-col items-center justify-center'>
-                                            <img src={image} className='w-full h-full ' alt="" />
+                                            <img src={image} className='w-full' alt="" />
                                         </div>
                                     </div>
                                 )
@@ -162,4 +172,4 @@ const AddCategory = () => {
     );
 }
 
-export default AddCategory;
+export default EditCategory;

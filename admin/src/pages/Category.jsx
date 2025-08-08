@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Button } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, TableBody } from '@mui/material';
 
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom'
@@ -21,7 +21,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import SearchBox from '../components/SearchBox';
 import { MyContext } from '../App';
+import { deleteData, fetchDataFromApi } from '../utils/api';
 
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -29,6 +32,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
 const columns = [
     { id: 'image', label: 'IMAGE', minWidth: 250 },
+    { id: 'name', label: 'CATEGORY NAME', minWidth: 250 },
     { id: 'action', label: 'ACTION', minWidth: 100 },
 
 ];
@@ -45,6 +49,16 @@ const Category = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [catData, setcatData] = useState([])
+
+    useEffect(() => {
+        fetchDataFromApi("/api/category").then((res) => {
+            // console.log(res?.data)
+            setcatData(res?.data)
+        })
+    }, [])
+
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -55,6 +69,17 @@ const Category = () => {
         setPage(0);
 
     }
+
+    const deleteCat = (id) => {
+        deleteData(`/api/category/${id}`).then((res) => {
+            // console.log(res);
+            // optionally: refresh the category list or show a success alert
+            fetchDataFromApi("/api/category").then((res) => {
+                setcatData(res?.data)
+            })
+        });
+    }
+
     return (
         <>
 
@@ -121,50 +146,77 @@ const Category = () => {
                             </TableRow>
                         </TableHead>
 
-                        <TableRow >
-                            <TableCell width={60}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
+                        <TableBody>
 
-                            <TableCell width={100}>
-                                <div className='flex items-center gap-4 w-[80px]'>
-                                    <div className="img w-full  rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734525239704_foot.png" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
+                            {
+                                catData?.length !== 0 && catData?.map((item, index) => {
+                                    return (
+                                        <TableRow >
+                                            <TableCell width={60}>
+                                                <Checkbox {...label} size="small" />
+                                            </TableCell>
+
+                                            <TableCell width={100}>
+                                                <div className='flex items-center gap-4 w-[80px]'>
+                                                    <div className="img w-full  rounded-md overflow-hidden ">
+                                                        <Link to='/product/45745'>
+                                                            <LazyLoadImage
+                                                                className='w-full hover:scale-105 transition-all'
+                                                                effect="blur"
+                                                                wrapperProps={{
+                                                                    // If you need to, you can tweak the effect transition using the wrapper style.
+                                                                    style: { transitionDelay: "1s" },
+                                                                }}
+                                                                src={item.images[0]} // use normal <img> attributes as props
+                                                            />
+
+                                                        </Link>
+                                                    </div>
 
 
-                                </div>
-                            </TableCell>
+                                                </div>
+                                            </TableCell>
+
+                                            <TableCell width={100} className='capitalize'>
+                                                <span className='text-[16px] '>{item.name}</span>
+                                            </TableCell>
 
 
-                            <TableCell width={30}>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
+                                            <TableCell width={30}>
+                                                <div className='flex items-center gap-1'>
+                                                    <Tooltip title="Edit" placement='top'>
+                                                        <IconButton>
+                                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0' onClick={() => context.setIsOpenFullScreenPanle({
+                                                                open: true,
+                                                                model: 'Edit Category',
+                                                                id: item?._id
+                                                            })}><MdModeEdit className=' !text-[24px]' /></Button>
+                                                        </IconButton>
+                                                    </Tooltip>
 
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+                                                    <Tooltip title="View" placement='top'>
+                                                        <IconButton>
+                                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
 
-                                        </IconButton>
-                                    </Tooltip>
+                                                        </IconButton>
+                                                    </Tooltip>
 
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
+                                                    <Tooltip title="Delete" placement='top'>
+                                                        <IconButton>
+                                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0' onClick={() => deleteCat(item?._id)}><MdDelete className=' !text-[24px]' /></Button>
 
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </div>
 
-                            </TableCell>
-                        </TableRow>
+                                            </TableCell>
+                                        </TableRow>
+                                    )
+                                })
+                            }
 
+
+                        </TableBody>
 
 
                     </Table>
