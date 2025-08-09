@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import Products from './pages/Products'
 import AddProduct from './pages/AddProduct'
 
@@ -23,6 +23,7 @@ import AddSubCatList from './pages/AddSubCategory'
 import AddSubCategory from './pages/AddSubCategory'
 import toast, { Toaster } from 'react-hot-toast';
 import EditCategory from './pages/EditCategory'
+import { fetchDataFromApi } from './utils/api'
 
 const MyContext = createContext();
 
@@ -37,6 +38,8 @@ function App() {
     model: '',
     id: ""
   })
+  const [catData, setCatData] = useState([])
+
 
   const handleClickOpen = () => {
     setIsOpenFullScreenPanle({
@@ -191,6 +194,13 @@ function App() {
 
   ])
 
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      // console.log(res?.data)
+      setCatData(res?.data)
+    })
+  }, [])
+
   const values = {
     isSidebarOpen,
     setIsSidebarOpen,
@@ -198,6 +208,8 @@ function App() {
     setIsOpenFullScreenPanle,
     handleClickOpen,
     openAlertBox,
+    catData,
+    setCatData
   };
 
   return (

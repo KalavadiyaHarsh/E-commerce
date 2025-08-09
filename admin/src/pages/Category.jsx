@@ -49,14 +49,14 @@ const Category = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [catData, setcatData] = useState([])
+    // const [catData, setCatData] = useState([])
 
-    useEffect(() => {
-        fetchDataFromApi("/api/category").then((res) => {
-            // console.log(res?.data)
-            setcatData(res?.data)
-        })
-    }, [])
+    // useEffect(() => {
+    //     fetchDataFromApi("/api/category").then((res) => {
+    //         // console.log(res?.data)
+    //         setCatData(res?.data)
+    //     })
+    // }, [])
 
 
 
@@ -75,7 +75,7 @@ const Category = () => {
             // console.log(res);
             // optionally: refresh the category list or show a success alert
             fetchDataFromApi("/api/category").then((res) => {
-                setcatData(res?.data)
+                context?.setCatData(res?.data)
             })
         });
     }
@@ -128,7 +128,7 @@ const Category = () => {
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead >
-                            <TableRow>
+                            <TableRow >
 
                                 <TableCell>
                                     <Checkbox {...label} size="small" />
@@ -149,9 +149,9 @@ const Category = () => {
                         <TableBody>
 
                             {
-                                catData?.length !== 0 && catData?.map((item, index) => {
+                                context?.catData?.length !== 0 && context?.catData?.map((item, index) => {
                                     return (
-                                        <TableRow >
+                                        <TableRow key={index}>
                                             <TableCell width={60}>
                                                 <Checkbox {...label} size="small" />
                                             </TableCell>
