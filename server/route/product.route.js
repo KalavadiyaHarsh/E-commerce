@@ -6,8 +6,12 @@ import { createProduct, deleteProduct, getAllFeatureProducts, getAllProducts, ge
 
 const productRouter = Router();
 
-productRouter.post('/uploadImages',auth,upload.array('images'), uploadImages)
-productRouter.post('/create',auth,createProduct)
+//productRouter.post('/uploadImages',auth,upload.array('images'), uploadImages)
+productRouter.post('/uploadImages',upload.array('images'), uploadImages)   //temporary solution to allow image upload without auth
+
+//productRouter.post('/create',auth,createProduct)
+productRouter.post('/create',createProduct) //temp
+
 productRouter.get('/getAllProducts',getAllProducts)
 productRouter.get('/getAllProductsByCatId/:id',getAllProductsByCatId)
 productRouter.get('/getAllProductsByCatName',getAllProductsByCatName)
@@ -21,7 +25,10 @@ productRouter.get('/getAllProductsCount',getProductsCount)
 productRouter.get('/getAllFeatureProducts',getAllFeatureProducts)
 productRouter.delete('/:id',deleteProduct)
 productRouter.get('/:id',getProduct)
-productRouter.delete('/deleteImage',auth,removeImageFromCloudinary)
-productRouter.put('/updateProduct',auth,updateProduct)
+//productRouter.delete('/deleteImage',auth,removeImageFromCloudinary)
+productRouter.delete('/deleteImage',removeImageFromCloudinary) //temp
+
+//productRouter.put('/updateProduct',auth,updateProduct)
+productRouter.put('/updateProduct',updateProduct) //temp
 
 export default productRouter

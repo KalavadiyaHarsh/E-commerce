@@ -114,7 +114,7 @@ const AddCategory = () => {
                     <div className='grid grid-cols-1 mb-3'>
                         <div className='col w-[25%]'>
                             <h3 className='text-[14px] font-[500] mb-1'>Category Name</h3>
-                            <input type="text" name='name' value={formFields.value} className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] p-3 text-sm' onChange={onChangeInput} />
+                            <input type="text" name='name' value={formFields.name} className='w-full h-[40px] border border-[rgba(0,0,0,0.2)] p-3 text-sm' onChange={onChangeInput} />
                         </div>
                     </div>
                     <br />
