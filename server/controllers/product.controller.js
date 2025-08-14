@@ -59,12 +59,14 @@ export async function createProduct(req, res) {
         let product = new ProductModel({
             name: req.body.name,
             description: req.body.description,
-            images: imagesArr,
+           // images: imagesArr,
+           images: req.body.images,
             brand: req.body.brand,
             price: req.body.price,
             oldPrice: req.body.oldPrice,
             catName: req.body.catName,
             catId: req.body.catId,
+            category: req.body.category,
             subCatId: req.body.subCatId,
             subCat: req.body.subCat,
             thirdsubCat: req.body.thirdsubCat,
@@ -73,6 +75,7 @@ export async function createProduct(req, res) {
             rating: req.body.rating,
             isFeatured: req.body.isFeatured,
             discount: req.body.discount,
+            sale: req.body.sale,
             productRam: req.body.productRam,
             size: req.body.size,
             productWeight: req.body.productWeight
@@ -126,12 +129,14 @@ export async function getAllProducts(req, res) {
             });
         }
 
-        const products = await ProductModel.find()
-            .populate("category")
-            .skip((page - 1) * perPage)
-            .limit(perPage)
-            .exec();
+        // const products = await ProductModel.find()
+        //     .populate("category")
+        //     .skip((page - 1) * perPage)
+        //     .limit(perPage)
+        //     .exec();
 
+        const products = await ProductModel.find().populate("category");
+        
         if (!products) {
             res.status(500).json({
                 error: true,

@@ -4,32 +4,17 @@ import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import React, { createContext, useEffect, useState } from 'react'
 import Products from './pages/Products'
-import AddProduct from './pages/AddProduct'
 
-import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { IoClose } from "react-icons/io5";
-import Slide from '@mui/material/Slide';
-import { Button } from '@mui/material'
+
 import HomeSliderBanners from './pages/HomeSliderBanners'
-import AddHomeSlide from './pages/AddHomeSlide'
 import Category from './pages/Category'
-import AddCategory from './pages/AddCategory'
 import SubCatList from './pages/SubCatList'
-import AddSubCatList from './pages/AddSubCategory'
-import AddSubCategory from './pages/AddSubCategory'
 import toast, { Toaster } from 'react-hot-toast';
-import EditCategory from './pages/EditCategory'
 import { fetchDataFromApi } from './utils/api'
 
 const MyContext = createContext();
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+
 function App() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -159,7 +144,7 @@ function App() {
     },
 
     {
-      path: "/sabcategory/list",
+      path: "/subcategory/list",
       element: (
         <>
           <section className='main w-full'>
@@ -207,6 +192,7 @@ function App() {
     isOpenFullScreenPanle,
     setIsOpenFullScreenPanle,
     handleClickOpen,
+    handleClose,
     openAlertBox,
     catData,
     setCatData
@@ -217,53 +203,7 @@ function App() {
       <MyContext.Provider value={values}>
         <RouterProvider router={router} />
         <Toaster />
-        <Dialog
-          fullScreen
-          open={isOpenFullScreenPanle.open}
-          onClose={handleClose}
-          slots={{
-            transition: Transition,
-          }}
-        >
-          <AppBar sx={{ position: 'relative' }}>
-            <Toolbar>
-              <IconButton
-                edge="start"
-                color="inherit"
-                onClick={handleClose}
-                aria-label="close"
-              >
-                <IoClose />
-              </IconButton>
-              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                {isOpenFullScreenPanle?.model}
-              </Typography>
-              <Button autoFocus color="inherit" onClick={handleClose}>
-                save
-              </Button>
-            </Toolbar>
-          </AppBar>
-          {
-            isOpenFullScreenPanle?.model === "Add Product" && <AddProduct />
-          }
-
-          {
-            isOpenFullScreenPanle?.model === "Add Home Slide" && <AddHomeSlide />
-          }
-
-          {
-            isOpenFullScreenPanle?.model === "Add New Category" && <AddCategory />
-          }
-
-          {
-            isOpenFullScreenPanle?.model === "Add New Sub Category" && <AddSubCategory />
-          }
-
-          {
-            isOpenFullScreenPanle?.model === "Edit Category" && <EditCategory />
-          }
-
-        </Dialog>
+        
       </MyContext.Provider>
     </>
   )

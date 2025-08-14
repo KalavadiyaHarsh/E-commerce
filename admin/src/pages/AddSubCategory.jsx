@@ -6,10 +6,12 @@ import Select from '@mui/material/Select';
 import { MyContext } from '../App';
 import CircularProgress from '@mui/material/CircularProgress';
 import { postData } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
 const AddSubCategory = () => {
 
     const context = useContext(MyContext);
+    const history = useNavigate();
 
     const [productSubCat, setProductSubCat] = useState('');
     const [productSubCat2, setProductSubCat2] = useState('');
@@ -87,13 +89,14 @@ const AddSubCategory = () => {
             if (res?.error !== true) {
                 setTimeout(() => {
                     setIsLoading(false);
-                    context.openAlertBox("success", res?.message);
                     context.setIsOpenFullScreenPanle({
                         open: false
                     });
 
                     window.location.reload();  // ✅ Reload the page to show new category
-                }, 1500)        
+                }, 1500)   
+                context.openAlertBox("success", res?.message);
+                history("/subcategory/list");     
 
             } else {
                 context.openAlertBox("error", res?.message);
@@ -122,13 +125,14 @@ const AddSubCategory = () => {
             if (res?.error !== true) {
                 setTimeout(() => {
                     setIsLoading2(false);
-                    context.openAlertBox("success", res?.message);
                     context.setIsOpenFullScreenPanle({
                         open: false
                     });
-
+                    
                     window.location.reload();  // ✅ Reload the page to show new category
                 }, 1500)        
+                context.openAlertBox("success", res?.message);
+                history("/subcategory/list");
 
             } else {
                 context.openAlertBox("error", res?.message);

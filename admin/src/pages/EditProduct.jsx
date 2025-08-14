@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Rating from '@mui/material/Rating';
@@ -8,7 +8,7 @@ import { IoClose } from "react-icons/io5";
 import { Button } from '@mui/material';
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MyContext } from '../App';
-import { deleteImages, postData } from '../utils/api';
+import { deleteImages, editData, fetchDataFromApi } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -26,7 +26,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 // };
 
 
-const AddProduct = () => {
+const EditProduct = () => {
 
     const context = useContext(MyContext);
     const history = useNavigate();
@@ -51,7 +51,7 @@ const AddProduct = () => {
         brand: "",
         price: "",
         oldPrice: "",
-        category:"",
+        category: "",
         catName: "",
         catId: "",
         subCatId: "",
@@ -66,6 +66,39 @@ const AddProduct = () => {
         size: [],
         productWeight: [],
     })
+
+
+
+
+    useEffect(() => {
+        const id = context?.isOpenFullScreenPanle?.id;
+        fetchDataFromApi(`/api/product/${id}`).then((res) => {
+            setFormFields({
+                name: res?.product?.name || "",
+                description: res?.product?.description || "",
+                //images: res?.product?.images || [],
+                brand: res?.product?.brand || "",
+                price: res?.product?.price || "",
+                oldPrice: res?.product?.oldPrice || "",
+                category: res?.product?.category || "",
+                countInStock: res?.product?.countInStock || "",
+                rating: res?.product?.rating || "",
+                discount: res?.product?.discount || "",
+
+            });
+            setProductCat(res.product.catId || "");
+            setProductSubCat(res.product.subCatId || "");
+            setThirdsubCat(res.product.thirdsubCatId || "");
+            setProductFeatured(res?.product?.isFeatured || false);
+            setProductRam(res?.product?.productRam || []);
+            setProductWeight(res?.product?.productWeight || []);
+            setProductSize(res?.product?.size || []);
+
+            setPreviews(res?.product?.images || []);
+        })
+
+        console.log(setFormFields);
+    }, [context?.isOpenFullScreenPanle?.id]);
 
     const handleChangeProductCat = (event) => {
         setProductCat(event.target.value);
@@ -188,55 +221,51 @@ const AddProduct = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (formFields.name.trim() === "") {
+        if (formFields.name === "") {
             context.openAlertBox("error", "Please enter product name!");
             setIsLoading(false);
             return false;
         }
 
-        if (formFields.description.trim() === "") {
+        if (formFields.description === "") {
             context.openAlertBox("error", "Please enter product description!");
             setIsLoading(false);
             return false;
         }
 
-         if (!formFields.catId) {
-            context.openAlertBox("error", "Please select a category!");
-            setIsLoading(false);
-            return false;
-        }
+        
 
-         if (formFields.price.trim() === "") {
+        if (formFields.price === "") {
             context.openAlertBox("error", "Please enter product price!");
             setIsLoading(false);
             return false;
         }
 
-        if (formFields.oldPrice.trim() === "") {
+        if (formFields.oldPrice === "") {
             context.openAlertBox("error", "Please enter product old price!");
             setIsLoading(false);
             return false;
         }
 
-        if (formFields.countInStock.trim() === 0) {
+        if (formFields.countInStock === 0) {
             context.openAlertBox("error", "Please select at least one RAM option!");
             setIsLoading(false);
             return false;
         }
 
-        if (formFields.brand.trim() === "") {
+        if (formFields.brand === "") {
             context.openAlertBox("error", "Please enter brand name!");
             setIsLoading(false);
             return false;
-        }   
+        }
 
-         if (formFields.discount.trim() === "") {
+        if (formFields.discount === "") {
             context.openAlertBox("error", "Please enter discount!");
             setIsLoading(false);
             return false;
         }
 
-         if (formFields.rating.trim() === 0) {
+        if (formFields.rating === 0) {
             context.openAlertBox("error", "Please select at least one RAM option!");
             setIsLoading(false);
             return false;
@@ -247,33 +276,12 @@ const AddProduct = () => {
             setIsLoading(false);
             return;
         }
-              
+
         setIsLoading(true);
 
-        postData('/api/product/create', formFields).then((res) => {
+        editData(`/api/product/${context?.isOpenFullScreenPanle?.id}`, formFields).then((res) => {
             console.log(res);
-            // setFormFields({
-            //     name: "",
-            //     description: "",
-            //     images: [],
-            //     brand: "",
-            //     price: "",
-            //     oldPrice: "",
-            //     catName: "",
-            //     catId: "",
-            //     subCatId: "",
-            //     subCat: "",
-            //     thirdsubCat: "",
-            //     thirdsubCatId: "",
-            //     countInStock: "",
-            //     rating: "",
-            //     isFeatured: false,
-            //     discount: "",
-            //     productRam: [],
-            //     size: [],
-            //     productWeight: [],
-            // });
-            // setPreviews([]);
+
             if (res?.error !== true) {
                 setTimeout(() => {
                     setIsLoading(false);
@@ -583,4 +591,4 @@ const AddProduct = () => {
     );
 };
 
-export default AddProduct;
+export default EditProduct;

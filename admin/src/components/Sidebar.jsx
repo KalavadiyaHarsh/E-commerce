@@ -10,7 +10,6 @@ import { IoBagCheck } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from 'react-collapse';
-import { FaAngleUp } from "react-icons/fa6";
 import { MyContext } from '../App';
 
 
@@ -126,7 +125,7 @@ const Sidebar = () => {
                 </li>
 
                 <li className='w-full'>
-                  <Link to={"/sabcategory/list"}>
+                  <Link to={"/subcategory/list"}>
                     <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Sub category List</Button>
                   </Link>
                 </li>

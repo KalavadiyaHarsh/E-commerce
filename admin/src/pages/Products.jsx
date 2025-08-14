@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Button } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, TableBody } from '@mui/material';
 
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom'
@@ -22,6 +22,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import SearchBox from '../components/SearchBox';
 import { MyContext } from '../App';
+import { deleteData, fetchDataFromApi } from '../utils/api';
+
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -41,8 +45,18 @@ const columns = [
 const Products = () => {
 
     const context = useContext(MyContext)
-
     const [categoryFillterVal, setCategoryFillterVal] = useState('');
+
+    const [productData, setProductData] = useState([]);
+
+    useEffect(() => {
+        fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            if (res?.error === false) {
+                setProductData(res?.products);
+                // console.log(res?.products);
+            }
+        });
+    }, []);
 
     const handleChangeFillter = (event) => {
         setCategoryFillterVal(event.target.value);
@@ -59,6 +73,24 @@ const Products = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const deleteProduct = (id) => {
+        deleteData(`/api/product/${id}`).then((res) => {
+            // fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            //     if (res?.error === false) {
+            //         setProductData(res?.products);
+            //     }
+            // });
+            if (res?.error === false) {
+                window.location.reload();
+                context.openAlertBox("success", res?.message);
+            }
+            else {
+                context.openAlertBox("error", "Product not deleted!");
+            }
+
+        })
+    }
 
     return (
         <>
@@ -123,355 +155,104 @@ const Products = () => {
                             </TableRow>
                         </TableHead>
 
-                        <TableRow >
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div className='flex items-center gap-4 w-[350px]'>
-                                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
-
-                                    <div className='w-[80%]'>
-                                        <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
-
-                                        <span className='text-[12px]'>Books</span>
-                                    </div>
-
-                                </div>
-                            </TableCell>
-
-
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Electronics
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Women
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div class="flex items-center gap-2 flex-col leading-4">
-                                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
-                                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
-                                <Progress value={40} type="success" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow >
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div className='flex items-center gap-4 w-[350px]'>
-                                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
-
-                                    <div className='w-[80%]'>
-                                        <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
-
-                                        <span className='text-[12px]'>Books</span>
-                                    </div>
-
-                                </div>
-                            </TableCell>
-
-
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Electronics
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Women
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div class="flex items-center gap-2 flex-col leading-4">
-                                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
-                                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
-                                <Progress value={40} type="success" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow >
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div className='flex items-center gap-4 w-[350px]'>
-                                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
-
-                                    <div className='w-[80%]'>
-                                        <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
-
-                                        <span className='text-[12px]'>Books</span>
-                                    </div>
-
-                                </div>
-                            </TableCell>
-
-
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Electronics
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Women
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div class="flex items-center gap-2 flex-col leading-4">
-                                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
-                                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
-                                <Progress value={40} type="success" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow >
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div className='flex items-center gap-4 w-[350px]'>
-                                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
-
-                                    <div className='w-[80%]'>
-                                        <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
-
-                                        <span className='text-[12px]'>Books</span>
-                                    </div>
-
-                                </div>
-                            </TableCell>
-
-
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Electronics
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Women
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div class="flex items-center gap-2 flex-col leading-4">
-                                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
-                                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
-                                <Progress value={40} type="success" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-
-                            </TableCell>
-                        </TableRow>
-
-                        <TableRow >
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <Checkbox {...label} size="small" />
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div className='flex items-center gap-4 w-[350px]'>
-                                    <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
-                                        <Link to='/product/45745'>
-                                            <img src="https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg" className='w-full hover:scale-105 transition-all' />
-                                        </Link>
-                                    </div>
-
-                                    <div className='w-[80%]'>
-                                        <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to='/product/45745'> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Beatae doloremque neque consectetur quis? Totam, sapiente. </Link></h3>
-
-                                        <span className='text-[12px]'>Books</span>
-                                    </div>
-
-                                </div>
-                            </TableCell>
-
-
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Electronics
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                Women
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <div class="flex items-center gap-2 flex-col leading-4">
-                                    <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">$58.00</span>
-                                    <span class="price text-primary text-[15px] font-[600]">$58.00</span>
-                                </div>
-                            </TableCell>
-
-                            <TableCell style={{ minWidth: columns.minWidth }}>
-                                <p className='text-[14px]'><span className='font-[600]'>134 </span>sale</p>
-                                <Progress value={40} type="success" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className='flex items-center gap-1'>
-                                    <Tooltip title="Edit" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0'><MdModeEdit className=' !text-[24px]' /></Button>
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="View" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-
-                                    <Tooltip title="Delete" placement='top'>
-                                        <IconButton>
-                                            <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0'><MdDelete className=' !text-[24px]' /></Button>
-
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
-
-                            </TableCell>
-                        </TableRow>
+                        <TableBody>
+
+                            {
+                                productData.length !== 0 && [...productData] // make a copy so original isn't mutated
+                                    .reverse()
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((product, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <Checkbox {...label} size="small" />
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <div className='flex items-center gap-4 w-[350px]'>
+                                                        <div className="img w-[65px] h-[65px] rounded-md overflow-hidden ">
+                                                            <Link to={`/product/${product?._id}`}>
+
+                                                                <LazyLoadImage
+                                                                    effect="blur"
+                                                                    wrapperProps={{
+                                                                        style: { transitionDelay: "1s" },
+                                                                    }}
+                                                                    src={product?.images[0]}
+                                                                    className='w-full h-full hover:scale-105 transition-all rounded-md'
+                                                                />
+                                                            </Link>
+                                                        </div>
+
+                                                        <div className='w-[80%]'>
+                                                            <h3 className='font-[600] text-[12px] leading-4 hover:text-[#5943da]'> <Link to={`/product/${product?._id}`}>{product?.name}</Link></h3>
+
+                                                            <span className='text-[12px]'>{product?.brand}</span>
+                                                        </div>
+
+                                                    </div>
+                                                </TableCell>
+
+
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    {product?.catName}
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    {product?.subCat}
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <div class="flex items-center gap-2 flex-col leading-4">
+                                                        <span class="oldPrice line-through text-gray-500 text-[15px] font-[500]">&#x20b9;{product?.oldPrice}</span>
+                                                        <span class="price text-primary text-[15px] font-[600]">&#x20b9;{product?.price}</span>
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell style={{ minWidth: columns.minWidth }}>
+                                                    <p className='text-[14px]'><span className='font-[600]'>{product?.sale} </span>Sale</p>
+                                                    {/* <Progress value={40} type="success" /> */}
+                                                </TableCell>
+
+                                                <TableCell>
+                                                    <div className='flex items-center gap-1'>
+                                                        <Tooltip title="Edit" placement='top'>
+                                                            <IconButton>
+                                                                <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-green-400 !rounded-md !p-0' onClick={() => context.setIsOpenFullScreenPanle({
+                                                                    open: true,
+                                                                    model: 'Edit Product',
+                                                                    id: product?._id
+                                                                })}><MdModeEdit className=' !text-[24px]' /></Button>
+                                                            </IconButton>
+                                                        </Tooltip>
+
+                                                        <Tooltip title="View" placement='top'>
+                                                            <IconButton>
+                                                                <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+
+                                                            </IconButton>
+                                                        </Tooltip>
+
+                                                        <Tooltip title="Delete" placement='top'>
+                                                            <IconButton>
+                                                                <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-red-600 !text-[18px] !rounded-md !p-0' onClick={() => deleteProduct
+                                                                    (product?._id)}>
+                                                                    <MdDelete className=' !text-[24px]' />
+                                                                </Button>
+
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </div>
+
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    })
+                            }
+
+
+                        </TableBody>
 
                     </Table>
                 </TableContainer>
@@ -479,7 +260,7 @@ const Products = () => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={30}
+                    count={productData?.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

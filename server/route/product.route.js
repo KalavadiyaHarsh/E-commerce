@@ -29,6 +29,6 @@ productRouter.get('/:id',getProduct)
 productRouter.delete('/deleteImage',removeImageFromCloudinary) //temp
 
 //productRouter.put('/updateProduct',auth,updateProduct)
-productRouter.put('/updateProduct',updateProduct) //temp
+productRouter.put('/:id',updateProduct) //temp
 
 export default productRouter

@@ -1,19 +1,20 @@
 import React, { useContext, useState } from 'react';
 
 import UploadBox from '../components/UploadBox';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
 import { IoClose } from "react-icons/io5";
 import { Button } from '@mui/material';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import { deleteImages, fetchDataFromApi, postData } from '../utils/api';
 import { MyContext } from '../App';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
 
 const AddCategory = () => {
 
     const context = useContext(MyContext);
+    const history = useNavigate();
+    
 
 
     const [isLoading, setIsLoading] = useState(false)
@@ -88,13 +89,14 @@ const AddCategory = () => {
             if (res?.error !== true) {
                 setTimeout(() => {
                     setIsLoading(false);
-                    context.openAlertBox("success", res?.message);
                     context.setIsOpenFullScreenPanle({
                         open: false
                     });
-
+                    
                     window.location.reload();  // ✅ Reload the page to show new category
-                }, 1500)
+                }, 1000)
+                context.openAlertBox("success", res?.message);
+                history("/category/list");
 
 
 
