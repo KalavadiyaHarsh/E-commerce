@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, TableBody } from '@mui/material';
+import { Button, TableBody, Zoom } from '@mui/material';
 
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom'
@@ -45,9 +45,13 @@ const columns = [
 const Products = () => {
 
     const context = useContext(MyContext)
-    const [categoryFillterVal, setCategoryFillterVal] = useState('');
+    
 
     const [productData, setProductData] = useState([]);
+
+    const [productCat, setProductCat] = useState('');
+    const [productSubCat, setProductSubCat] = useState('');
+    const [thirdsubCat, setThirdsubCat] = useState('');
 
     useEffect(() => {
         fetchDataFromApi("/api/product/getAllProducts").then((res) => {
@@ -58,9 +62,38 @@ const Products = () => {
         });
     }, []);
 
-    const handleChangeFillter = (event) => {
-        setCategoryFillterVal(event.target.value);
+    const handleChangeProductCat = (event) => {
+        setProductCat(event.target.value);
+
+        fetchDataFromApi(`/api/product/getAllProductsByCatId/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+              setProductData(res?.data);
+            }
+        });
+    }
+
+    const handleChangeProductSubCat = (event) => {
+        setProductSubCat(event.target.value);
+
+        fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+              setProductData(res?.data);
+            }
+        });
     };
+
+     const handleChangeThirdSubCat = (event) => {
+        setThirdsubCat(event.target.value);
+        fetchDataFromApi(`/api/product/getAllProductsByThirdLavelCatId/${event.target.value}`).then((res) => {
+            if (res?.error === false) {
+              setProductData(res?.data);
+            }
+        });
+    };
+
+   
+
+
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -107,25 +140,116 @@ const Products = () => {
             <div className='card mt-3 bg-white rounded-lg shadow-md'>
 
                 <div className='flex items-center justify-between w-full pl-6 pb-4 pr-5 pt-5'>
-                    <div className=' col w-[20%]'>
-                        <h4 className='font-[600] text-[13px]'>Category</h4>
-                        <Select
-                            className='w-full'
-                            size='small'
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
-                            value={categoryFillterVal}
-                            onChange={handleChangeFillter}
-                            label="Category"
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Men</MenuItem>
-                            <MenuItem value={20}>Women</MenuItem>
-                            <MenuItem value={30}>Kids</MenuItem>
-                        </Select>
+                    <div className='flex items-center gap-4 w-full'>
+                        <div className=' col w-[20%]'>
+                            <h4 className='font-[600] text-[13px] mb-1'>Category By</h4>
+
+                            {
+                                context?.catData?.length !== 0 &&
+                                <>
+                                    <Select Select
+                                        className='w-full'
+                                        style={{ zoom: '80%' }}
+                                        size='small'
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        value={productCat}
+                                        onChange={handleChangeProductCat}
+                                        label="Category"
+                                    >
+
+                                        {context?.catData?.map((cat, index) => {
+
+                                            return (
+                                                <MenuItem key={index} value={cat?._id}>
+                                                    {cat?.name}
+                                                </MenuItem>
+                                            )
+                                        })
+                                        }
+
+                                    </Select>
+                                </>
+                            }
+
+
+                        </div>
+
+
+                        <div className=' col w-[20%]'>
+                            <h4 className='font-[600] text-[13px] mb-1'>Sub Category By</h4>
+                            {
+                                context?.catData?.length !== 0 &&
+                                <>
+                                    <Select Select
+                                        className='w-full'
+                                        style={{ zoom: '80%' }}
+                                        size='small'
+                                        labelId="demo-simple-select-standard-label"
+                                        id="demo-simple-select-standard"
+                                        value={productSubCat}
+                                        onChange={handleChangeProductSubCat}
+                                        label="Category"
+                                    >
+
+                                        {
+                                            context?.catData?.map((cat, index) => {
+                                                return (
+                                                    cat?.children.length !== 0 &&
+                                                    cat?.children.map((subCat, subIndex) => {
+                                                        return (
+                                                            <MenuItem key={subIndex} value={subCat?._id}>
+                                                                {subCat?.name}
+                                                            </MenuItem>
+                                                        )
+                                                    }
+                                                    )
+                                                )
+                                            }
+                                            )
+                                        }
+
+
+                                    </Select>
+                                </>
+                            }
+
+                        </div>
+
+
+                        <div className='col w-[25%]'>
+                            <h4 className='font-[600] text-[13px] mb-1'>Third Level Category By</h4>
+
+                            {context?.catData?.length !== 0 && (
+                                <Select
+                                    className='w-full'
+                                    style={{ zoom: '80%' }}
+                                    size='small'
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={thirdsubCat}
+                                    onChange={handleChangeThirdSubCat}
+                                    label="Category"
+                                >
+                                    {context?.catData?.map((cat, index) =>
+                                        cat?.children?.length > 0 &&
+                                        cat.children.map((subCat, subIndex) =>
+                                            subCat?.children?.length > 0 &&
+                                            subCat.children.map((thirdCat, thirdIndex) => (
+                                                <MenuItem key={thirdIndex} value={thirdCat?._id}>
+                                                    {thirdCat?.name}
+                                                </MenuItem>
+                                            ))
+                                        )
+                                    )}
+                                </Select>
+                            )}
+                        </div>
+
+
                     </div>
+
+
 
 
                     <div className=' col w-[20%]'>
@@ -269,7 +393,7 @@ const Products = () => {
 
 
 
-            </div>
+            </div >
         </>
     );
 }

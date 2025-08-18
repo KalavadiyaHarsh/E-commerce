@@ -543,7 +543,7 @@ const EditProduct = () => {
 
                         <div className='col'>
                             <h3 className='text-[14px] font-[500] mb-1'>Product Rating</h3>
-                            <Rating name="half-rating" defaultValue={1} precision={0.5} onChange={onChangeRating} />
+                            <Rating name="rating" value={formFields.rating} defaultValue={1} onChange={onChangeRating} />
                         </div>
 
                     </div>

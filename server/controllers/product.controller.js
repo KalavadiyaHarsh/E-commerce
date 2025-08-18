@@ -59,8 +59,8 @@ export async function createProduct(req, res) {
         let product = new ProductModel({
             name: req.body.name,
             description: req.body.description,
-           // images: imagesArr,
-           images: req.body.images,
+            // images: imagesArr,
+            images: req.body.images,
             brand: req.body.brand,
             price: req.body.price,
             oldPrice: req.body.oldPrice,
@@ -136,7 +136,7 @@ export async function getAllProducts(req, res) {
         //     .exec();
 
         const products = await ProductModel.find().populate("category");
-        
+
         if (!products) {
             res.status(500).json({
                 error: true,
@@ -685,6 +685,60 @@ export async function deleteProduct(req, res) {
 }
 
 
+//delte multiple products
+export async function deleteMultipleProduct(req, res) {
+    const ids = req.body;
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return res.status(400).json({
+            message: "Invalid or empty IDs array",
+            error: true,
+            success: false
+        });
+    }
+
+    for (let i = 0; i < ids.length; i++) {
+        const product = await ProductModel.findById(ids[i]);
+
+        const images = product.images;
+        let img = "";
+
+        for (img of images) {
+
+            const imgUrl = img;
+            const urlArr = imgUrl.split("/");
+            const image = urlArr[urlArr.length - 1];
+
+            // e.g., "image.jpg"
+            const imageName = image.split(".")[0];  // e.g., "image"
+            if (imageName) {
+                cloudinary.uploader.destroy(imageName, (error, result) => {
+
+                });
+            }
+
+        }
+
+    }
+
+    try {
+        await ProductModel.deleteMany({ _id: { $in: ids } });
+
+        return res.status(200).json({
+            message: "Products deleted successfully",
+            success: true,
+            error: false
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error",
+            error: true,
+            success: false
+        })
+    }
+
+}
 // get single product
 export async function getProduct(req, res) {
     try {
@@ -792,7 +846,7 @@ export async function updateProduct(req, res) {
         imagesArr = [];
 
         return res.status(200).json({
-            message : "The product is updated",
+            message: "The product is updated",
             success: true,
             error: false,
             product: product

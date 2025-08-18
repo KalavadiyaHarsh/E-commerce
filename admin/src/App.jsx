@@ -181,10 +181,12 @@ function App() {
 
   useEffect(() => {
     fetchDataFromApi("/api/category").then((res) => {
-      //console.log(res?.data)
+    
       setCatData(res?.data)
     })
   }, [])
+
+  
 
   const values = {
     isSidebarOpen,
