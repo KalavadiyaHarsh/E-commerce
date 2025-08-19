@@ -191,15 +191,26 @@ const EditProduct = () => {
     }
 
 
-
-    //for image upload
-    //  const setPreviewsFun = (newImage) => {
-    //         setPreviews((prev) => [...prev, newImage]);
-    //         formFields.images = newImage;
-    //     };
+    /**
+     * Adds new image files to the previews array and updates the form fields accordingly.
+     *
+     * This function takes an array of new image files, appends them to the existing previews array,
+     * and then updates the state and form fields after a short delay. The delay ensures that the state
+     * update is processed correctly.
+     *
+     * @param {File[]} newImages - An array of new image files to be added to the previews.
+     */
     const setPreviewsFun = (newImages) => {
-        setPreviews((prev) => [...prev, ...newImages]); // merge arrays
-        formFields.images = [...(formFields.images || []), ...newImages]; // append to form field
+        const imgArr = previews;
+        for (let i = 0; i < newImages.length; i++) {
+            imgArr.push(newImages[i]);
+        }
+
+        setPreviews([]);
+        setTimeout(() => {
+            setPreviews(imgArr);
+            formFields.images = imgArr;
+        }, 10);
     };
 
     const removeImg = (image, index) => {
@@ -233,7 +244,7 @@ const EditProduct = () => {
             return false;
         }
 
-        
+
 
         if (formFields.price === "") {
             context.openAlertBox("error", "Please enter product price!");

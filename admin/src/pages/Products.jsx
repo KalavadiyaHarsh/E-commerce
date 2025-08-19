@@ -352,10 +352,12 @@ const Products = () => {
                                                         </Tooltip>
 
                                                         <Tooltip title="View" placement='top'>
+                                                            <Link to={`/product/${product?._id}`}>
                                                             <IconButton>
                                                                 <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
 
                                                             </IconButton>
+                                                            </Link>
                                                         </Tooltip>
 
                                                         <Tooltip title="Delete" placement='top'>

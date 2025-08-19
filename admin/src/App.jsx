@@ -11,6 +11,7 @@ import Category from './pages/Category'
 import SubCatList from './pages/SubCatList'
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchDataFromApi } from './utils/api'
+import ProductDetails from './pages/ProductDetails'
 
 const MyContext = createContext();
 
@@ -159,6 +160,29 @@ function App() {
                 className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
               >
                 <SubCatList />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
+     {
+      path: "/product/:id",
+      element: (
+        <>
+          <section className='main w-full'>
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`sidebarWrapper overflow-hidden transition-all duration-1000 ease-in-out ${isSidebarOpen === true ? 'w-[18%]' : 'hidden'}`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
+              >
+                <ProductDetails />
               </div>
             </div>
           </section>

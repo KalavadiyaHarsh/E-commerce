@@ -3,6 +3,8 @@ import { IoImagesOutline } from "react-icons/io5";
 import { uploadImages } from '../utils/api';
 import { MyContext } from '../App';
 import CircularProgress from '@mui/material/CircularProgress';
+import Tooltip from '@mui/material/Tooltip';
+
 
 const UploadBox = (props) => {
   const [previews, setPreviews] = useState([]);
@@ -85,35 +87,37 @@ const UploadBox = (props) => {
   };
 
   return (
-    <div className='uploadBox p-3 relative rounded-md overflow-hidden border border-dashed border-[rgba(0,0,0,0.3)] h-[150px] w-[100%] bg-gray-100 cursor-pointer hover:bg-gray-200 flex flex-col items-center justify-center'>
+    <Tooltip title="Recommended image size: 540px (width) × 720px (height)" placement="top">
+      <div className='uploadBox p-3 relative rounded-md overflow-hidden border border-dashed border-[rgba(0,0,0,0.3)] h-[150px] w-[100%] bg-gray-100 cursor-pointer hover:bg-gray-200 flex flex-col items-center justify-center'>
 
-      {
-        uploading === true ?
-          <>
-            < CircularProgress />
-            <h4 className='text-center'>Uploading...</h4>
-          </>
-          :
-          <>
-            <IoImagesOutline className='text-[40px] opacity-20' />
-            <h4 className='text-[14px] font-[600]'>Image Upload</h4>
+        {
+          uploading === true ?
+            <>
+              < CircularProgress />
+              <h4 className='text-center'>Uploading...</h4>
+            </>
+            :
+            <>
+              <IoImagesOutline className='text-[40px] opacity-20' />
+              <h4 className='text-[14px] font-[600]'>Image Upload</h4>
 
-            <input
-              type="file"
-              multiple={props.multiple}
-              className='absolute top-0 left-0 w-full h-full opacity-0'
-              accept='image/*'
-              onChange={(e) => {
-                onchangeFile(e, props?.url)
-              }}
-              name="images"
-            />
-          </>
-      }
+              <input
+                type="file"
+                multiple={props.multiple}
+                className='absolute top-0 left-0 w-full h-full opacity-0'
+                accept='image/*'
+                onChange={(e) => {
+                  onchangeFile(e, props?.url)
+                }}
+                name="images"
+              />
 
+            </>
 
+        }
 
-    </div>
+      </div>
+    </Tooltip>
   );
 }
 
