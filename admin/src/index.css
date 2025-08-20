@@ -36,6 +36,15 @@ body{
   background: #3067e5 !important ;
 }
 
+.btn-red{
+  background: #ff5252 !important;
+  color: #fff !important;
+  padding: 8px 19px !important;
+}
+.btn-red:hover{
+  background: #e03b3b !important ;
+}
+
 .myCustomBtn{
   border: 1px solid rgba(0,0,0,0.3) !important;
 }

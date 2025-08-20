@@ -178,12 +178,14 @@ const ProductDetails = () => {
 
                                         <br />
 
-                                        <div>
-                                            <h2 className='text-[19px] font-[500]'>Product Description :</h2>
-                                            <p className='text-[14px] text-gray-600'>{product?.description}</p>
-                                        </div>
+                                    
 
                                     </div>
+                                </div>
+                                <br />
+                                <div>
+                                    <h2 className='text-[19px] font-[500]'>Product Description :</h2>
+                                    <p className='text-[14px] text-gray-600'>{product?.description}</p>
                                 </div>
 
                                 <br />
@@ -200,7 +202,7 @@ const ProductDetails = () => {
                                             <div className='info w-[80%]'>
                                                 <div className='flex items-center justify-between'>
                                                     <h4 className='font-[500] text-[16px]'>John Doe</h4>
-                                                    <Rating name="read-only" value={product?.rating} readOnly />
+                                                    <Rating name="read-only" value={product?.rating} precision={0.5} readOnly />
                                                 </div>
                                                 <span className='text-[13px] '>2025-08-14</span>
                                                 <p className='text-[14px] text-gray-600 mt-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe hic soluta ut ducimus magni repellendus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus fugiat suscipit, deserunt nulla eaque debitis adipisci laborum mollitia dolor?</p>
@@ -219,7 +221,7 @@ const ProductDetails = () => {
                                             <div className='info w-[80%]'>
                                                 <div className='flex items-center justify-between'>
                                                     <h4 className='font-[500] text-[16px]'>John Doe</h4>
-                                                    <Rating name="read-only" value={product?.rating} readOnly />
+                                                    <Rating name="read-only" value={product?.rating} precision={0.5} readOnly />
                                                 </div>
                                                 <span className='text-[13px] '>2025-08-14</span>
                                                 <p className='text-[14px] text-gray-600 mt-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe hic soluta ut ducimus magni repellendus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus fugiat suscipit, deserunt nulla eaque debitis adipisci laborum mollitia dolor?</p>
@@ -238,7 +240,7 @@ const ProductDetails = () => {
                                             <div className='info w-[80%]'>
                                                 <div className='flex items-center justify-between'>
                                                     <h4 className='font-[500] text-[16px]'>John Doe</h4>
-                                                    <Rating name="read-only" value={product?.rating} readOnly />
+                                                    <Rating name="read-only" value={product?.rating} precision={0.5} readOnly />
                                                 </div>
                                                 <span className='text-[13px] '>2025-08-14</span>
                                                 <p className='text-[14px] text-gray-600 mt-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe hic soluta ut ducimus magni repellendus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus fugiat suscipit, deserunt nulla eaque debitis adipisci laborum mollitia dolor?</p>
@@ -257,7 +259,7 @@ const ProductDetails = () => {
                                             <div className='info w-[80%]'>
                                                 <div className='flex items-center justify-between'>
                                                     <h4 className='font-[500] text-[16px]'>John Doe</h4>
-                                                    <Rating name="read-only" value={product?.rating} readOnly />
+                                                    <Rating name="read-only" value={product?.rating} precision={0.5} readOnly />
                                                 </div>
                                                 <span className='text-[13px] '>2025-08-14</span>
                                                 <p className='text-[14px] text-gray-600 mt-2'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe hic soluta ut ducimus magni repellendus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus fugiat suscipit, deserunt nulla eaque debitis adipisci laborum mollitia dolor?</p>

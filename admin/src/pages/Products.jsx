@@ -22,7 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import SearchBox from '../components/SearchBox';
 import { MyContext } from '../App';
-import { deleteData, fetchDataFromApi } from '../utils/api';
+import { deleteData, deleteMultipleData, fetchDataFromApi } from '../utils/api';
 
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
@@ -45,29 +45,72 @@ const columns = [
 const Products = () => {
 
     const context = useContext(MyContext)
-    
+
 
     const [productData, setProductData] = useState([]);
 
     const [productCat, setProductCat] = useState('');
     const [productSubCat, setProductSubCat] = useState('');
     const [thirdsubCat, setThirdsubCat] = useState('');
+    const [sortedIds, setSortedIds] = useState([]);
 
     useEffect(() => {
         fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+            let productArr = [];
             if (res?.error === false) {
-                setProductData(res?.products);
+
+                for (let i = 0; i < res?.products?.length; i++) {
+                    productArr[i] = res?.products[i];
+                    productArr[i].checked = false;
+                }
+
+                setProductData(productArr);
+                //console.log(productArr);
                 // console.log(res?.products);
             }
         });
     }, []);
+
+
+    const handleSelectAll = (e) => {
+        const isChecked = e.target.checked;
+        const updatedItems = productData.map((item) => ({
+            ...item,
+            checked: isChecked
+        }));
+        setProductData(updatedItems);
+
+        if (isChecked) {
+            const ids = updatedItems.map((item) => item._id).sort();
+            setSortedIds(ids);
+        }
+        else {
+            setSortedIds([]);
+        }
+
+    }
+
+    const handleCheckboxChange = (e, id, index) => {
+        const updatedItems = productData.map((item) =>
+            item._id === id ? { ...item, checked: e.target.checked } : item
+        );
+        setProductData(updatedItems);
+
+        const selectedIds = updatedItems
+            .filter((item) => item.checked)
+            .map((item) => item._id)
+            .sort((a, b) => a - b);
+
+        setSortedIds(selectedIds);
+        // console.log(selectedIds);
+    }
 
     const handleChangeProductCat = (event) => {
         setProductCat(event.target.value);
 
         fetchDataFromApi(`/api/product/getAllProductsByCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
-              setProductData(res?.data);
+                setProductData(res?.data);
             }
         });
     }
@@ -77,21 +120,23 @@ const Products = () => {
 
         fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
-              setProductData(res?.data);
+                setProductData(res?.data);
             }
         });
     };
 
-     const handleChangeThirdSubCat = (event) => {
+    const handleChangeThirdSubCat = (event) => {
         setThirdsubCat(event.target.value);
         fetchDataFromApi(`/api/product/getAllProductsByThirdLavelCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
-              setProductData(res?.data);
+                setProductData(res?.data);
             }
         });
     };
 
-   
+
+
+
 
 
 
@@ -125,13 +170,41 @@ const Products = () => {
         })
     }
 
+    const deleteMultipleProduct = () => {
+        if (sortedIds.length === 0) {
+            context.openAlertBox("error", "Please select at least one product to delete.");
+            return;
+        }
+
+        try {
+            deleteMultipleData("/api/product/deleteMultiple", { ids: sortedIds },
+            ).then((res) => {
+                if (res?.error === false) {
+                    window.location.reload();
+                    context.openAlertBox("success", res?.message);
+                } else {
+                    context.openAlertBox("error", "Products not deleted!");
+                }
+            })
+
+        } catch (error) {
+            console.error("Error deleting products:", error);
+            context.openAlertBox("error", "Failed to delete products.");
+            return;
+
+        }
+    }
+
     return (
         <>
 
             <div className='flex items-center justify-between pl-3'>
                 <h2 className='text-[19px] font-[600]'>Products</h2>
 
-                <div className='col w-[25%] flex items-center justify-end gap-3 '>
+                <div className='col w-[30%] flex items-center justify-end gap-3 '>
+                    {
+                        sortedIds.length !== 0 && <Button className='btn-red !px-[19px] !py-[8px]  !text-white' onClick={deleteMultipleProduct}>Delete</Button>
+                    }
                     <Button className='btn !bg-green-600 !px-[19px] !py-[8px]  !text-white'>Export</Button>
                     <Button className='btn-blue w-full !text-black' onClick={context.handleClickOpen}>Add Product</Button>
                 </div>
@@ -264,7 +337,12 @@ const Products = () => {
                             <TableRow>
 
                                 <TableCell>
-                                    <Checkbox {...label} size="small" />
+                                    <Checkbox {...label} size="small"
+                                        onChange={handleSelectAll}
+                                        checked={productData?.length > 0 ? productData.every((item) => item.checked) : false}
+                                    />
+
+
                                 </TableCell>
 
                                 {columns.map((column) => (
@@ -289,7 +367,10 @@ const Products = () => {
                                         return (
                                             <TableRow key={index}>
                                                 <TableCell style={{ minWidth: columns.minWidth }}>
-                                                    <Checkbox {...label} size="small" />
+                                                    <Checkbox {...label} size="small"
+                                                        checked={product.checked === true ? true : false}
+                                                        onChange={(e) => handleCheckboxChange(e, product._id, index)}
+                                                    />
                                                 </TableCell>
 
                                                 <TableCell style={{ minWidth: columns.minWidth }}>
@@ -353,10 +434,10 @@ const Products = () => {
 
                                                         <Tooltip title="View" placement='top'>
                                                             <Link to={`/product/${product?._id}`}>
-                                                            <IconButton>
-                                                                <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
+                                                                <IconButton>
+                                                                    <Button className='myCustomBtn !w-[35px] !h-[35px] !min-w-[35px] !text-primary !text-[18px] !rounded-md !p-0'><IoEye className=' !text-[24px]' /></Button>
 
-                                                            </IconButton>
+                                                                </IconButton>
                                                             </Link>
                                                         </Tooltip>
 

@@ -685,9 +685,9 @@ export async function deleteProduct(req, res) {
 }
 
 
-//delte multiple products
+//delete multiple products
 export async function deleteMultipleProduct(req, res) {
-    const ids = req.body;
+    const { ids } = req.body;
 
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
         return res.status(400).json({

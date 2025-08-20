@@ -50,7 +50,8 @@ const SubCatList = () => {
                                                 className="min-w-[35px] w-[35px] h-[35px] rounded-full bg-white text-black ml-auto"
                                                 onClick={() => expend(index)}
                                             >
-                                                <FaAngleDown />
+                                                {isOpen === index ? <FaAngleUp /> : <FaAngleDown />}
+                                                
                                             </Button>
                                         </div>
 

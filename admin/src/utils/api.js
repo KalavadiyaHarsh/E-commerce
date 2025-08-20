@@ -65,7 +65,7 @@ export const postData = async (url, formData) => {
 //         });
 
 //         return response.data;
-    
+
 //     } catch (error) {
 //         console.log(error);
 //         return error;
@@ -97,19 +97,19 @@ export const fetchDataFromApi = async (url) => {
 
 
 export const uploadImage = async (url, updatedData) => {
-     try {
-        const response = await axios.put(apiUrl + url, updatedData, {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        return response.data;
+  try {
+    const response = await axios.put(apiUrl + url, updatedData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken")}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
 
-    } catch (error) {
-        console.error("Error in editData:", error);
-        return { success: false, error };
-    }
+  } catch (error) {
+    console.error("Error in editData:", error);
+    return { success: false, error };
+  }
 }
 
 export const uploadImages = async (url, formData) => {
@@ -175,7 +175,7 @@ export const editData = async (url, updatedData) => {
 
 
 export const deleteImages = async (url, imageUrl) => {
- try {
+  try {
     const token = localStorage.getItem("accesstoken");
     const headers = {
       'Content-Type': 'application/json',
@@ -185,7 +185,7 @@ export const deleteImages = async (url, imageUrl) => {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await axios.delete(apiUrl + url , { headers });
+    const response = await axios.delete(apiUrl + url, { headers });
     return response.data;
 
   } catch (error) {
@@ -196,7 +196,7 @@ export const deleteImages = async (url, imageUrl) => {
 
 
 export const deleteData = async (url) => {
- try {
+  try {
     const token = localStorage.getItem("accesstoken");
     const headers = {
       'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ export const deleteData = async (url) => {
       headers['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await axios.delete(apiUrl + url , { headers });
+    const response = await axios.delete(apiUrl + url, { headers });
     return response.data;
 
   } catch (error) {
@@ -214,5 +214,45 @@ export const deleteData = async (url) => {
     return { success: false, error };
   }
 };
+
+// export const deleteMultipleData = async (url, ids) => {
+//   try {
+//     const token = localStorage.getItem("accesstoken");
+//     const headers = {
+//       'Content-Type': 'application/json',
+//     };
+//     if (token) {
+//       headers['Authorization'] = `Bearer ${token}`;
+//     }
+//     const response = await axios.delete(apiUrl + url, {
+//       headers,
+//       data: { ids }, // Sending ids in the request body
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error in deleteMultipleData:", error);
+//     return { success: false, error };
+//   }
+// }
+
+export const deleteMultipleData = async (url, ids) => {
+  try {
+    const token = localStorage.getItem("accesstoken");
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    const response = await axios.delete(apiUrl + url, {
+      headers,
+      data: ids,  // 👈 body ko config ke andar bhejna chahiye
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error in deleteMultipleData:", error);
+    return { success: false, error };
+  }
+}
 
 

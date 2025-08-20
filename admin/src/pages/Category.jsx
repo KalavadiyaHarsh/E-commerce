@@ -42,23 +42,40 @@ const Category = () => {
     const context = useContext(MyContext)
 
     const [categoryFillterVal, setCategoryFillterVal] = useState('');
+    const [allCatData, setAllCatData] = useState([]);
+
+    useEffect(() => {
+        fetchDataFromApi("/api/category").then((res) => {
+            setAllCatData(res?.data);
+            context?.setCatData(res?.data);
+        });
+    }, []);
 
     const handleChangeFillter = (event) => {
-        setCategoryFillterVal(event.target.value);
+        const selectedId = event.target.value;
+        setCategoryFillterVal(selectedId);
+
+        if (!selectedId) {
+            // If no category is selected, reset the category data to all categories
+            context?.setCatData(allCatData);
+        } else {
+            // If a category is selected, fetch and set the category data to that category
+            fetchDataFromApi(`/api/category/${selectedId}`).then((res) => {
+                if (res?.error === false) {
+                    context?.setCatData([res?.category]);
+                } else {
+                    context?.setCatData([]);
+                }
+            });
+            // Fetch and set the category data to that category
+
+        }
     };
+
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    // const [catData, setCatData] = useState([])
-
-    // useEffect(() => {
-    //     fetchDataFromApi("/api/category").then((res) => {
-    //         // console.log(res?.data)
-    //         setCatData(res?.data)
-    //     })
-    // }, [])
-
-
+    
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -69,6 +86,8 @@ const Category = () => {
         setPage(0);
 
     }
+
+
 
     const deleteCat = (id) => {
         deleteData(`/api/category/${id}`).then((res) => {
@@ -99,22 +118,19 @@ const Category = () => {
 
                 <div className='flex items-center justify-between w-full pl-6 pb-4 pr-5 pt-5'>
                     <div className=' col w-[20%]'>
-                        <h4 className='font-[600] text-[13px]'>Category</h4>
+                        <h4 className='font-[600] text-[13px] mb-1'>Category</h4>
                         <Select
                             className='w-full'
                             size='small'
-                            labelId="demo-simple-select-standard-label"
-                            id="demo-simple-select-standard"
                             value={categoryFillterVal}
                             onChange={handleChangeFillter}
-                            label="Category"
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={10}>Men</MenuItem>
-                            <MenuItem value={20}>Women</MenuItem>
-                            <MenuItem value={30}>Kids</MenuItem>
+                            <MenuItem value="">All Categories</MenuItem> 
+                            {allCatData?.map((item, index) => (
+                                <MenuItem key={index} value={item?._id} className='capitalize'>
+                                    {item?.name}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </div>
 
