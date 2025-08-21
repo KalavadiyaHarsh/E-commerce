@@ -173,7 +173,7 @@ const Category = () => {
                                             </TableCell>
 
                                             <TableCell width={100}>
-                                                <div className='flex items-center gap-4 w-[80px]'>
+                                                <div className='flex items-center gap-4 w-[50px]'>
                                                     <div className="img w-full  rounded-md overflow-hidden ">
                                                         <Link to='/product/45745'>
                                                             <LazyLoadImage

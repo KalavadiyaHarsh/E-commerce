@@ -107,6 +107,8 @@ const Products = () => {
 
     const handleChangeProductCat = (event) => {
         setProductCat(event.target.value);
+        setProductSubCat('');
+        setThirdsubCat('');
 
         fetchDataFromApi(`/api/product/getAllProductsByCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
@@ -117,6 +119,9 @@ const Products = () => {
 
     const handleChangeProductSubCat = (event) => {
         setProductSubCat(event.target.value);
+        setProductCat('');
+        setThirdsubCat('');
+
 
         fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
@@ -127,17 +132,15 @@ const Products = () => {
 
     const handleChangeThirdSubCat = (event) => {
         setThirdsubCat(event.target.value);
+        setProductCat('');
+        setProductSubCat('');
+
         fetchDataFromApi(`/api/product/getAllProductsByThirdLavelCatId/${event.target.value}`).then((res) => {
             if (res?.error === false) {
                 setProductData(res?.data);
             }
         });
     };
-
-
-
-
-
 
 
     const [page, setPage] = useState(0);

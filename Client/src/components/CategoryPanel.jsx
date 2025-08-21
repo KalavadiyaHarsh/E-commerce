@@ -40,8 +40,11 @@ const CategoryPanel = (props) => {
 
       <h3 className='p-3 text-[16px] font-[500] flex justify-between items-center'>Shop By Categories <IoMdClose onClick={props.openCategoryPanel} className='cursor-pointer text-[19px]' /></h3>
 
-      
-      <CategoryCollapse />
+      {
+        props?.data?.length !== 0 && <CategoryCollapse data={props?.data} />
+      }
+
+
 
     </Box>
   );

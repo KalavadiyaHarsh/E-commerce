@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { RiMenu2Line } from "react-icons/ri";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosRocket } from "react-icons/io";
 import CategoryPanel from './CategoryPanel';
+import { fetchDataFromApi } from '../utils/api';
 
 
 
 const Navigation = () => {
 
     const [isOpenCatPanel, setIsOpenCatPanel] = useState(false);
+    const [catData, setCatData] = useState([])
+
+    useEffect(() => {
+        fetchDataFromApi("/api/category").then((res) => {
+            if (res?.error === false) {
+                setCatData(res?.data)
+                console.log(res?.data)
+            }
+
+        })
+    }, []);
 
     const openCategoryPanel = () => {
         setIsOpenCatPanel(!isOpenCatPanel);
@@ -33,189 +45,63 @@ const Navigation = () => {
                                 </Link>
                             </li>
 
-                            <li className='list-none relative'>
-                                <Link to={"/productListing"} className='link transition text-[14px] font-[500]'><Button>Fashion</Button></Link>
+                            {
+                                catData?.length !== 0 && catData.map((cat, index) => {
+                                    return (
+                                        <li className='list-none relative' key={index}>
+                                            <Link to={"/productListing"} className='link transition text-[14px] font-[500]'><Button>{cat?.name}</Button></Link>
 
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li className='list-none w-full'>
-                                            <Link to={"/"} className='w-full'>
-                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Men</Button>
+                                            {
+                                                cat?.children?.length !== 0 && (
+                                                    <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
+                                                        <ul>
+                                                            {cat.children.map((subCat, subIndex) => {
+                                                                return (
+                                                                    <li className='list-none w-full' key={subIndex}>
+                                                                        <Link to={"/"} className='w-full'>
+                                                                            <Button className='!text-black w-full !text-left !justify-start !rounded-none'>
+                                                                                {subCat?.name}
+                                                                            </Button>
+                                                                        </Link>
 
-                                                <div className='submenu absolute top-[0%] left-[100%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                                    <ul>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Men1</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Women1</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Kids1</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Girls1</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Boys1</Button>
-                                                            </Link>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </Link>
+                                                                        {
+                                                                            subCat?.children?.length !== 0 &&
+                                                                            <div className='submenu absolute top-[0%] left-[100%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
+                                                                                <ul>
+                                                                                    {
+                                                                                        subCat.children.map((thirdSubCat, thirdSubIndex) => {
+                                                                                            return (
+                                                                                                <li className='list-none w-full' key={thirdSubIndex}>
+                                                                                                    <Link to={"/"} className='w-full'>
+                                                                                                        <Button className='!text-black w-full!text-left!justify-start!rounded-none'>
+                                                                                                            {thirdSubCat?.name}
+                                                                                                        </Button>
+                                                                                                    </Link>
+                                                                                                </li>
+                                                                                            );
+                                                                                        })
+                                                                                    }
+                                                                                </ul>
+                                                                            </div>
+                                                                        }
+
+
+
+                                                                    </li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                )
+                                            }
+
                                         </li>
-                                        <li className='list-none w-full'>
-                                            <Link to={"/"} className='w-full'>
-                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Women</Button>
-                                                <div className='submenu absolute top-[0%] left-[100%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                                    <ul>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Men3</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Women3</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Kids3</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Girls3</Button>
-                                                            </Link>
-                                                        </li>
-                                                        <li className='list-none w-full'>
-                                                            <Link to={"/"} className='w-full'>
-                                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Boys3</Button>
-                                                            </Link>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </Link>
-                                        </li>
-                                        <li className='list-none w-full'>
-                                            <Link to={"/"} className='w-full'>
-                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Kids</Button>
-                                            </Link>
-                                        </li>
-                                        <li className='list-none w-full'>
-                                            <Link to={"/"} className='w-full'>
-                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Girls</Button>
-                                            </Link>
-                                        </li>
-                                        <li className='list-none w-full'>
-                                            <Link to={"/"} className='w-full'>
-                                                <Button className='!text-black w-full !text-left !justify-start !rounded-none'>Boys</Button>
-                                            </Link>
-                                        </li>
+                                    )
+
+                                })
+                            }
 
 
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Electronics</Button></Link>
-                                <div className='submenu absolute top-[120%] min-w-[160px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Mobiles</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Laptops</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Smart Watches</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Accessories</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Bags</Button></Link>
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Laptop Bags</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Handbags</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Travel Backpacks</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Footware</Button></Link>
-
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Sneakers</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Formal Shoes</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Sandals</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Groceries</Button></Link>
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Fruits & Vegetables</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Dairy Products</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Spices</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Beauty</Button></Link>
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Makeup</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Skin Care</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Hair Care</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Wellness</Button></Link>
-
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Fitness Gear</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Vitamins</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Aromatherapy</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
-
-                            
-                            <li className='list-none relative'>
-                                <Link to={"/"} className='link transition text-[14px] font-[500]'><Button>Jewellery</Button></Link>
-
-                                <div className='submenu absolute top-[120%] min-w-[150px] bg-white shadow-md opacity-0 transition-all'>
-                                    <ul>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Necklaces</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Earrings</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Bracelets</Button></Link></li>
-                                        <li><Link to="/"><Button className='!text-black !justify-start !rounded-none w-full'>Rings</Button></Link></li>
-                                    </ul>
-                                </div>
-                            </li>
                         </ul>
                     </div>
 
@@ -227,7 +113,10 @@ const Navigation = () => {
             </nav>
 
             {/* CategoryPanle componant */}
-            <CategoryPanel openCategoryPanel={openCategoryPanel} isOpenCatPanel={isOpenCatPanel} />
+            {
+                catData?.length!== 0 && <CategoryPanel openCategoryPanel={openCategoryPanel} isOpenCatPanel={isOpenCatPanel} data={catData} />
+            }
+            
 
 
         </>
