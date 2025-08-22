@@ -11,6 +11,9 @@ import ProductItem from './ProductItem';
 const ProductsSlider = (props) => {
     return (
         <div className='productSlider py-5 overflow-x-auto'>
+            {
+                console.log(props?.data)
+            }
             <Swiper
                 slidesPerView={'auto'}
                 spaceBetween={10}
@@ -19,27 +22,18 @@ const ProductsSlider = (props) => {
                 className="mySwiper"
             >
 
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide >
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
-                <SwiperSlide className="!w-[250px]">
-                    <ProductItem />
-                </SwiperSlide>
+
+                {
+                    props?.data?.map((item, index) => {
+                        return (
+                            <SwiperSlide className="!w-[250px]" key={index}>
+                                <ProductItem item={item}/>
+                            </SwiperSlide >
+                        )
+                    })
+                }
+
+
             </Swiper>
 
         </div>

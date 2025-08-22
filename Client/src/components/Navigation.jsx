@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { RiMenu2Line } from "react-icons/ri";
@@ -6,23 +6,25 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { IoIosRocket } from "react-icons/io";
 import CategoryPanel from './CategoryPanel';
 import { fetchDataFromApi } from '../utils/api';
+import { MyContext } from '../App';
 
 
 
 const Navigation = () => {
 
     const [isOpenCatPanel, setIsOpenCatPanel] = useState(false);
-    const [catData, setCatData] = useState([])
+    const context = useContext(MyContext);
+    //const [context?.catData, setcontext?.catData] = useState([])
 
-    useEffect(() => {
-        fetchDataFromApi("/api/category").then((res) => {
-            if (res?.error === false) {
-                setCatData(res?.data)
-                console.log(res?.data)
-            }
+    // useEffect(() => {
+    //     fetchDataFromApi("/api/category").then((res) => {
+    //         if (res?.error === false) {
+    //             setcontext?.catData(res?.data)
+    //             console.log(res?.data)
+    //         }
 
-        })
-    }, []);
+    //     })
+    // }, []);
 
     const openCategoryPanel = () => {
         setIsOpenCatPanel(!isOpenCatPanel);
@@ -46,7 +48,7 @@ const Navigation = () => {
                             </li>
 
                             {
-                                catData?.length !== 0 && catData.map((cat, index) => {
+                                context?.catData?.length !== 0 && context?.catData.map((cat, index) => {
                                     return (
                                         <li className='list-none relative' key={index}>
                                             <Link to={"/productListing"} className='link transition text-[14px] font-[500]'><Button>{cat?.name}</Button></Link>
@@ -114,7 +116,7 @@ const Navigation = () => {
 
             {/* CategoryPanle componant */}
             {
-                catData?.length!== 0 && <CategoryPanel openCategoryPanel={openCategoryPanel} isOpenCatPanel={isOpenCatPanel} data={catData} />
+                context?.catData?.length!== 0 && <CategoryPanel openCategoryPanel={openCategoryPanel} isOpenCatPanel={isOpenCatPanel} data={context?.catData} />
             }
             
 

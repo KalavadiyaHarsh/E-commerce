@@ -44,6 +44,8 @@ function App() {
   const [maxWidth, setMaxWidth] = React.useState('lg');
   const [isLogin, setIsLogin] = useState(false)
   const [userData, setUserData] = useState(null)
+  const [catData, setCatData] = useState([])
+  const [productData, setProductData] = useState([])
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
@@ -73,6 +75,26 @@ function App() {
     }
   }, [isLogin])
 
+
+  useEffect(() => {
+    fetchDataFromApi("/api/category").then((res) => {
+      if (res?.error === false) {
+        setCatData(res?.data)
+       // console.log(res?.data)
+      }
+    })
+
+    fetchDataFromApi("/api/product/getAllProducts").then((res) => {
+      if (res?.error === false) {
+        //setCatData(res?.data)
+        setProductData(res?.products)
+        console.log(res?.products)
+      }
+    })
+
+
+  }, []);
+
   const openAlertBox = (status, meg) => {
 
     if (status === 'success') {
@@ -92,7 +114,9 @@ function App() {
     isLogin,
     setIsLogin,
     setUserData,
-    userData
+    userData,
+    catData,
+    productData
   }
 
 

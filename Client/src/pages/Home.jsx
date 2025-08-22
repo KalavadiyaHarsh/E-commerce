@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HomeSlider from '../components/HomeSlider';
 import HomeCatSlider from '../components/HomeCatSlider';
 import { FaShippingFast } from "react-icons/fa";
@@ -8,18 +8,48 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ProductsSlider from '../components/ProductsSlider';
+import { MyContext } from '../App';
+import { fetchDataFromApi } from '../utils/api';
 
 const Home = () => {
-
+  const context = useContext(MyContext);
   const [value, setValue] = React.useState(0);
+  const [popularProductsData, setPopularProductsData] = useState([])
 
   const handleChange = (event, newValue) => {
+    // console.log(event?.target)
     setValue(newValue);
   }
+
+  useEffect(() => {
+    fetchDataFromApi(`/api/product/getAllProductsByCatId/${context?.catData[0]?._id}`).then((res) => {
+      if (res?.error === false) {
+        setPopularProductsData(res?.data)
+      }
+    })
+
+  }, [context?.catData])
+
+  const filterByCatId = (id) => {
+    fetchDataFromApi(`/api/product/getAllProductsByCatId/${id}`).then((res) => {
+      if (res?.error === false) {
+        // console.log(res?.data)
+        setPopularProductsData(res?.data)
+
+      }
+
+    })
+
+  }
+
+
   return (
     <div>
       <HomeSlider />
-      <HomeCatSlider />
+      {
+        context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />
+      }
+
 
       <section className='bg-white py-8'>
         <div className='container'>
@@ -37,21 +67,24 @@ const Home = () => {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
               >
-                <Tab label="Home" />
-                <Tab label="Fashion" />
-                <Tab label="Electronics" />
-                <Tab label="Bags" />
-                <Tab label="Footware" />
-                <Tab label="Groceries" />
-                <Tab label="Beauty" />
-                <Tab label="Wellness" />
-                <Tab label="Jewellery" />
+
+                {
+                  context?.catData?.length !== 0 && context?.catData?.map((cat, index) => {
+                    return (
+                      <Tab key={index} label={cat?.name} onClick={() => filterByCatId(cat?._id)} />
+                    )
+                  })
+                }
+
               </Tabs>
 
             </div>
           </div>
+          {
+            popularProductsData?.length !== 0 && <ProductsSlider items={5} data={popularProductsData} />
+          }
 
-          <ProductsSlider items={5}/>
+
         </div>
       </section>
 
@@ -79,25 +112,29 @@ const Home = () => {
 
       </section>
 
-    <section className='py-5 pt-0 bg-white'>
-      <div className='container'>
-              <h2 className='text-[20px] font-[600]'>Latest Products</h2>
-          <ProductsSlider items={5}/>
+      <section className='py-5 pt-0 bg-white'>
+        <div className='container'>
+          <h2 className='text-[20px] font-[600]'>Latest Products</h2>
+          {
+            popularProductsData?.length !== 0 && <ProductsSlider items={5} data={popularProductsData} />
+          }
 
           <AdsBannerSlider items={3} />
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <section className='py-5 pt-0 bg-white'>
-      <div className='container'>
-              <h2 className='text-[20px] font-[600]'>Featured Products</h2>
-          <ProductsSlider items={5}/>
+      <section className='py-5 pt-0 bg-white'>
+        <div className='container'>
+          <h2 className='text-[20px] font-[600]'>Featured Products</h2>
+          {
+            popularProductsData?.length !== 0 && <ProductsSlider items={5} data={popularProductsData} />
+          }
 
           <AdsBannerSlider items={3} />
-      </div>
-    </section>
+        </div>
+      </section>
 
-    
+
     </div>
   );
 }
