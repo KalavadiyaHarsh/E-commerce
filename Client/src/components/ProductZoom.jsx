@@ -159,7 +159,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InnerImageZoom from 'react-inner-image-zoom';
 import 'react-inner-image-zoom/lib/styles.min.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -167,64 +167,67 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 
-const ProductZoom = () => {
-  // 🟡 Step 1: Image List
-  const images = [
-    "https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg",
-    "https://api.spicezgold.com/download/file_1734690981297_23990e6b-d01e-40fd-bb6b-98198db544c01714702040162RARERABBITMenComfortOpaqueCasualShirt2.jpg",
-    "https://api.spicezgold.com/download/file_1734690981299_c56f7a00-e9c5-43dc-8288-190cfc0fef3e1714702040062RARERABBITMenComfortOpaqueCasualShirt3.jpg",
-    "https://api.spicezgold.com/download/file_1734690981297_011618e4-4682-4123-be80-1fb7737d34ad1714702040213RARERABBITMenComfortOpaqueCasualShirt1.jpg",
-    "https://api.spicezgold.com/download/file_1734690981297_23990e6b-d01e-40fd-bb6b-98198db544c01714702040162RARERABBITMenComfortOpaqueCasualShirt2.jpg",
-    "https://api.spicezgold.com/download/file_1734690981299_c56f7a00-e9c5-43dc-8288-190cfc0fef3e1714702040062RARERABBITMenComfortOpaqueCasualShirt3.jpg",
-  ];
-
+const ProductZoom = (props) => {
+ 
   // 🟢 Step 2: useState for active image
-  const [activeImage, setActiveImage] = useState(images[0]);
+  const [activeImage, setActiveImage] = useState(null);
+
+  useEffect(() => {
+    // set first image as default active
+    if (props?.images?.length > 0) {
+      setActiveImage(props.images[0]);
+    }
+  }, []);
 
   return (
     <>
-      <div className='flex gap-3 h-[500px]'>
-        {/* Thumbnail Swiper */}
-        <div className='slider w-[25%] h-full'>
-          <Swiper
-            direction={'vertical'}
-            slidesPerView={4}
-            spaceBetween={10}
-            navigation={true}
-            modules={[Navigation]}
-            className="zoomProductSliderThumbs h-full"
-          >
-            {images.map((img, index) => (
-              <SwiperSlide key={index}>
-                <div
-                  className='item rounded-md overflow-hidden cursor-pointer group border-[1px] border-red-400'
-                  onClick={() => setActiveImage(img)} // 🟡 Step 3: Update active image
-                >
-                  <img
-                    src={img}
-                    alt={`thumb-${index}`}
-                    className='h-28 w-28 object-cover transition-all group-hover:scale-105'
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+      {
+        props?.images?.length !== 0 && <>
+          <div className='flex gap-3 h-[500px]'>
+            {/* Thumbnail Swiper */}
+            <div className='slider w-[25%] h-full'>
+              <Swiper
+                direction={'vertical'}
+                slidesPerView={4}
+                spaceBetween={10}
+                navigation={true}
+                modules={[Navigation]}
+                className="zoomProductSliderThumbs h-full"
+              >
+                {props?.images?.map((img, index) => (
+                  <SwiperSlide key={index}>
+                    <div
+                      className='item rounded-md overflow-hidden cursor-pointer group border-[1px] border-red-400'
+                      onClick={() => setActiveImage(img)} // 🟡 Step 3: Update active image
+                    >
+                      <img
+                        src={img}
+                        alt={`thumb-${index}`}
+                        className='h-28 w-28 object-cover transition-all group-hover:scale-105'
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
 
-        {/* Zoom Area */}
-        <div className='zoomContainer w-[75%] h-full overflow-hidden flex items-center justify-center rounded-md'>
-          <div className='w-full h-full'>
-            <InnerImageZoom
-              src={activeImage} // 🟢 Active image used here
-              zoomSrc={activeImage}
-              zoomType="hover"
-              zoomScale={1}
-              className="w-full h-full object-contain"
-            />
+            {/* Zoom Area */}
+            <div className='zoomContainer w-[75%] h-full overflow-hidden flex items-center justify-center rounded-md'>
+              <div className='w-full h-full'>
+                <InnerImageZoom
+                  src={activeImage} // 🟢 Active image used here
+                  zoomSrc={activeImage}
+                  zoomType="hover"
+                  zoomScale={1}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      }
     </>
+
   );
 };
 

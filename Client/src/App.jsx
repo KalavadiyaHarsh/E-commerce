@@ -39,7 +39,11 @@ const MyContext = createContext();
 
 function App() {
 
-  const [openProductDetailsModal, setOpenProductDetailsModal] = useState(false);
+  const [openProductDetailsModal, setOpenProductDetailsModal] = useState({
+    open: false,
+    item: {}
+  }
+  );
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState('lg');
   const [isLogin, setIsLogin] = useState(false)
@@ -49,10 +53,19 @@ function App() {
 
   const [openCartPanel, setOpenCartPanel] = useState(false);
 
-
+  const handleOpenProductDetailsModal = (status, item) => {
+    // alert(status)
+    setOpenProductDetailsModal({
+      open: status,
+      item: item
+    })
+  }
 
   const handleCloseProductDetailsModal = () => {
-    setOpenProductDetailsModal(false);
+    setOpenProductDetailsModal({
+      open: false,
+      item: {}
+    });
   };
 
   const toggleCartPanel = (newOpen) => () => {
@@ -80,7 +93,7 @@ function App() {
     fetchDataFromApi("/api/category").then((res) => {
       if (res?.error === false) {
         setCatData(res?.data)
-       // console.log(res?.data)
+        // console.log(res?.data)
       }
     })
 
@@ -107,6 +120,7 @@ function App() {
 
   const values = {
     setOpenProductDetailsModal,
+    handleOpenProductDetailsModal,
     setOpenCartPanel,
     openCartPanel,
     toggleCartPanel,
@@ -147,7 +161,7 @@ function App() {
       <Toaster />
 
       <Dialog
-        open={openProductDetailsModal}
+        open={openProductDetailsModal.open}
         fullWidth={fullWidth}
         maxWidth={maxWidth}
         onClose={handleCloseProductDetailsModal}
@@ -157,13 +171,19 @@ function App() {
       >
         <DialogContent>
           <div className='ProductDetailsModalContainer flex items-center w-full relative'>
-            <Button className='!w-[40px] h-[40px] !min-w-[40px] !rounded-full !text-black !absolute top-[-10px] right-[-10px]' onClick={handleCloseProductDetailsModal}><IoClose /></Button>
-            <div className='col1 w-[40%]'>
-              <ProductZoom />
-            </div>
-            <div className='col2 w-[60%] pl-5'>
-              <ProductDetailsComponent />
-            </div>
+            <Button className='!w-[40px] h-[40px] !min-w-[40px] !rounded-full !text-black !absolute top-[-10px] right-[-10px]' onClick={handleCloseProductDetailsModal} ><IoClose /></Button>
+            {
+              openProductDetailsModal?.item?.length !== 0 &&
+              <>
+                <div className='col1 w-[40%]'>
+                  <ProductZoom images={openProductDetailsModal?.item?.images} />
+                </div>
+                <div className='col2 w-[60%] pl-5'>
+                  <ProductDetailsComponent data={openProductDetailsModal?.item} />
+                </div>
+              </>
+            }
+
           </div>
         </DialogContent>
       </Dialog>

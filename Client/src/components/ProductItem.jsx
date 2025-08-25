@@ -48,7 +48,7 @@ function ProductItem(props) {
                     </Tooltip>
 
                     <Tooltip title="Zoom" placement="left">
-                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] rounded-full !bg-white text-black hover:!bg-primary hover:!text-white' onClick={() => context.setOpenProductDetailsModal(true)}>
+                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] rounded-full !bg-white text-black hover:!bg-primary hover:!text-white' onClick={() => context.handleOpenProductDetailsModal(true , props?.item)}>
                             <MdZoomOutMap className='text-[18px] text-black hover:text-white' />
                         </Button>
                     </Tooltip>
