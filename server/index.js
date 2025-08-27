@@ -10,6 +10,7 @@ import categoryRouter from './route/category.route.js';
 import productRouter from './route/product.route.js';
 import cartRouter from './route/cart.route.js';
 import myListRouter from './route/mylist.route.js';
+import bannerV1Router from './route/bannerV1.route.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/api/category',categoryRouter)
 app.use('/api/product',productRouter)
 app.use('/api/cart',cartRouter)
 app.use('/api/myList',myListRouter)
+app.use('/api/bannerV1',bannerV1Router)
 
 // Start Server
 connectDB().then(() => {

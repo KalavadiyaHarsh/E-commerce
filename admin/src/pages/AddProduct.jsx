@@ -51,7 +51,7 @@ const AddProduct = () => {
         brand: "",
         price: "",
         oldPrice: "",
-        category:"",
+        category: "",
         catName: "",
         catId: "",
         subCatId: "",
@@ -200,13 +200,13 @@ const AddProduct = () => {
             return false;
         }
 
-         if (!formFields.catId) {
+        if (!formFields.catId) {
             context.openAlertBox("error", "Please select a category!");
             setIsLoading(false);
             return false;
         }
 
-         if (formFields.price.trim() === "") {
+        if (formFields.price.trim() === "") {
             context.openAlertBox("error", "Please enter product price!");
             setIsLoading(false);
             return false;
@@ -228,15 +228,15 @@ const AddProduct = () => {
             context.openAlertBox("error", "Please enter brand name!");
             setIsLoading(false);
             return false;
-        }   
+        }
 
-         if (formFields.discount.trim() === "") {
+        if (formFields.discount.trim() === "") {
             context.openAlertBox("error", "Please enter discount!");
             setIsLoading(false);
             return false;
         }
 
-         if (formFields.rating.trim() === 0) {
+        if (formFields.rating.trim() === 0) {
             context.openAlertBox("error", "Please select at least one RAM option!");
             setIsLoading(false);
             return false;
@@ -247,7 +247,7 @@ const AddProduct = () => {
             setIsLoading(false);
             return;
         }
-              
+
         setIsLoading(true);
 
         postData('/api/product/create', formFields).then((res) => {

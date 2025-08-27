@@ -24,6 +24,8 @@ import Typography from '@mui/material/Typography';
 import { IoClose } from "react-icons/io5";
 import Slide from '@mui/material/Slide';
 import EditProduct from '../pages/EditProduct';
+import AddBannerV1 from '../pages/Banners/AddBannerV1';
+import EditBannerV1 from '../pages/Banners/EditBannerV1';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -193,6 +195,14 @@ const Header = () => {
 
                 {
                     context?.isOpenFullScreenPanle?.model === "Edit Product" && <EditProduct />
+                }
+
+                {
+                    context?.isOpenFullScreenPanle?.model === "Add BannerV1" && <AddBannerV1 />
+                }
+
+                {
+                    context?.isOpenFullScreenPanle?.model === "Edit BannerV1" && <EditBannerV1 />
                 }
 
 

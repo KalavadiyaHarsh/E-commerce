@@ -4,7 +4,7 @@ import UploadBox from '../components/UploadBox';
 import { IoClose } from "react-icons/io5";
 import { Button } from '@mui/material';
 import { FaCloudUploadAlt } from 'react-icons/fa';
-import { deleteImages, fetchDataFromApi, postData } from '../utils/api';
+import { deleteImages, postData } from '../utils/api';
 import { MyContext } from '../App';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';

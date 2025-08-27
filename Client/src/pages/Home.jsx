@@ -18,6 +18,8 @@ const Home = () => {
   const [popularProductsData, setPopularProductsData] = useState([])
   const [allProductData, setAllProductData] = useState([])
   const [allFeatureProducts, setAllFeatureProducts] = useState([])
+  const [bannerV1Data, setBannerV1Data] = useState([])
+
 
   const handleChange = (event, newValue) => {
     // console.log(event?.target)
@@ -41,16 +43,21 @@ const Home = () => {
     fetchDataFromApi("/api/product/getAllProducts").then((res) => {
       if (res?.error === false) {
         setAllProductData(res?.products)
-        
+
       }
     })
 
     fetchDataFromApi("/api/product/getAllFeatureProducts").then((res) => {
       if (res?.error === false) {
         setAllFeatureProducts(res?.products)
-        
+
       }
     })
+
+    fetchDataFromApi("/api/bannerV1").then((res) => {
+      setBannerV1Data(res?.data);
+
+    });
   }, [])
 
   const filterByCatId = (id) => {
@@ -136,7 +143,10 @@ const Home = () => {
             </div>
           </div>
 
-          <AdsBannerSlider items={4} />
+          {
+            bannerV1Data?.length !== 0 && <AdsBannerSlider items={4} data={bannerV1Data} />
+          }
+
         </div>
 
       </section>
@@ -162,7 +172,7 @@ const Home = () => {
           {
             allFeatureProducts?.length === 0 && <ProductLoading />
           }
-          
+
           {
             allFeatureProducts?.length !== 0 && <ProductsSlider items={5} data={allFeatureProducts} />
           }

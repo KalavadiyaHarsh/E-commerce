@@ -12,32 +12,25 @@ import BannerBox from './BannerBox';
 const AdsBannerSlider = (props) => {
     return (
         <div className='py-3 w-full'>
+            
             <Swiper
                 slidesPerView={props.items}
                 spaceBetween={10}
                 navigation={true}
                 modules={[Navigation]}
-                className="smlBtn"
+                className="smlBtn !rounded-sm w-full h-full "
             >
+                {
+                    props?.data?.length !== 0 && props?.data?.map((item, index) => {
+                        return (
+                            <SwiperSlide>
+                                <BannerBox info="left" item={item} img={item?.images[0]} link={"/"} />
+                            </SwiperSlide>
+                        )
+                    })  
+                }
 
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741663408792_1737020756772_New_Project_1.png'} link={"/"}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741664496923_1737020250515_New_Project_47.jpg'} link={"/"}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741664665391_1741497254110_New_Project_50.jpg'} link={"/"}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741663408792_1737020756772_New_Project_1.png'} link={"/"}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741664496923_1737020250515_New_Project_47.jpg'} link={"/"}/>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <BannerBox img={'https://serviceapi.spicezgold.com/download/1741664665391_1741497254110_New_Project_50.jpg'} link={"/"}/>
-                </SwiperSlide>
+
             </Swiper>
         </div>
     );

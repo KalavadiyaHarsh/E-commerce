@@ -150,6 +150,31 @@ const Sidebar = () => {
           </li>
 
           <li>
+            <Button className='!w-full !capitalize !py-2 hover:!bg-[#f1f1f1] !justify-start gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[600] items-center' onClick={() => isOpenSubMenu(4)}>
+              <SiProducthunt className='text-[18px]' />
+              <span> Banners </span>
+              <span className='ml-auto w-[30px] h-[30px] flex items-center justify-center'><FaAngleDown className={`transition-all ${submenuIndex === 4 ? 'rotate-180' : ''}`} /></span>
+            </Button>
+
+            <Collapse isOpened={submenuIndex === 4 ? true : false}>
+              <ul className='w-full'>
+                <li className='w-full'>
+                  <Link to={"/bannerV1/list"}>
+                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3'><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]'></span>Banner V1 List</Button>
+                  </Link>
+                </li>
+
+                <li className='w-full'>
+                    <Button className='!text-[rgba(0,0,0,0.7)] !capitalize !justify-start !w-full !text-[13px] !font-[500] !pl-5 !flex  gap-3' onClick={() => context.setIsOpenFullScreenPanle({
+                        open: true,
+                        model: 'Add BannerV1'
+                    })}><span className='block w-[4px] h-[4px] rounded-full bg-[rgba(0,0,0,0.2)]' ></span>Add Banner V1</Button>
+                </li>
+              </ul>
+            </Collapse>
+          </li>
+
+          <li>
             <Button className='!w-full !capitalize !py-3 hover:!bg-[#f1f1f1] !justify-start gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[600] items-center'>
               <IoMdLogOut className='text-[20px]' />
               <span> Logout </span>

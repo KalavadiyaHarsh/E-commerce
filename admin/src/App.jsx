@@ -12,6 +12,7 @@ import SubCatList from './pages/SubCatList'
 import toast, { Toaster } from 'react-hot-toast';
 import { fetchDataFromApi } from './utils/api'
 import ProductDetails from './pages/ProductDetails'
+import BannerV1List from './pages/Banners/BannerV1List'
 
 const MyContext = createContext();
 
@@ -25,6 +26,7 @@ function App() {
     id: ""
   })
   const [catData, setCatData] = useState([])
+  const [bannerData, setBannerData] = useState([])
 
 
   const handleClickOpen = () => {
@@ -190,6 +192,29 @@ function App() {
       )
     },
 
+    {
+      path: "/bannerV1/list",
+      element: (
+        <>
+          <section className='main w-full'>
+            <Header />
+            <div className="contentMain flex">
+              <div
+                className={`sidebarWrapper overflow-hidden transition-all duration-1000 ease-in-out ${isSidebarOpen === true ? 'w-[18%]' : 'hidden'}`}
+              >
+                <Sidebar />
+              </div>
+              <div
+                className={`contentRight py-4 px-5 transition-all duration-50 ease-in-out ${isSidebarOpen ? 'w-[82%]' : 'w-full'}`}
+              >
+                <BannerV1List />
+              </div>
+            </div>
+          </section>
+        </>
+      )
+    },
+
     // {
     //   path: "/products/upload",
     //   exact: true,
@@ -208,6 +233,12 @@ function App() {
     
       setCatData(res?.data)
     })
+
+    fetchDataFromApi("/api/bannerV1").then((res) => {
+    
+      setBannerData(res?.data)
+    })
+
   }, [])
 
   
@@ -221,7 +252,9 @@ function App() {
     handleClose,
     openAlertBox,
     catData,
-    setCatData
+    setCatData,
+    bannerData,
+    setBannerData
   };
 
   return (
