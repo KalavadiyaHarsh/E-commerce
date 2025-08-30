@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -9,19 +9,132 @@ import { FaArrowUp } from "react-icons/fa";
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import Rating from '@mui/material/Rating';
+import { MyContext } from '../App';
+import { useLocation } from 'react-router-dom';
+import { postData } from '../utils/api';
 
 
 
-const Sidebar = () => {
+const Sidebar = (props) => {
+    const context = useContext(MyContext);
+
+    const location = useLocation();
 
     const [isOpenCategoryFilter, setIsOpenCategoryFilter] = useState(true)
     const [isOpenAvailFilter, setIsOpenAvailFilter] = useState(true)
     const [isOpenSizeFilter, setIsOpenSizeFilter] = useState(true)
 
+    const [filters, setFilters] = useState({
+        catId: [],
+        subCatId: [],
+        thirdsubCatId: [],
+        minPrice: '',
+        maxPrice: '',
+        rating: '',
+        page: 1,
+        limit: 8
+    })
+
+    const [price, setPrice] = useState([0, 60000]);
+
+    const handleCheckboxChange = (field, value) => {
+
+        const currentValues = filters[field] || []
+        const updatedValues = currentValues?.includes(value) ? currentValues.filter((item) => item !== value) : [...currentValues, value];
+
+        setFilters((prev) => ({
+            ...prev,
+            [field]: updatedValues
+        }))
+
+        if (field === "catId") {
+            setFilters((prev) => ({
+                ...prev,
+                subCatId: [],
+                thirdsubCatId: []
+            }))
+        }
+
+    }
+
+
+
+
+    useEffect(() => {
+
+        const url = window.location.href;
+        const queryParameters = new URLSearchParams(location.search);
+
+        if (url.includes("catId")) {
+            const categoryId = queryParameters.get("catId");
+            const catArr = [];
+            catArr.push(categoryId);
+            filters.catId = catArr;
+            filters.subCatId = [];
+            filters.thirdsubCatId = [];
+            filters.rating = [];
+        }
+
+        if (url.includes("subCatId")) {
+            const subcategoryId = queryParameters.get("subCatId");
+            const subcatArr = [];
+            subcatArr.push(subcategoryId);
+            filters.subCatId = subcatArr;
+            filters.catId = [];
+            filters.thirdsubCatId = [];
+            filters.rating = [];
+        }
+
+        if (url.includes("thirdsubCatId")) {
+            const thirdsubcategoryId = queryParameters.get("thirdsubCatId");
+            const thirdsubcatArr = [];
+            thirdsubcatArr.push(thirdsubcategoryId);
+            filters.thirdsubCatId = thirdsubcatArr;
+            filters.catId = [];
+            filters.subCatId = [];
+            filters.rating = [];
+        }
+
+        filters.page = 1;
+
+    }, [location])
+
+     const filterData = () => {
+            props.setIsLoading(true);
+            postData(`/api/product/filters`, filters).then((res) => {
+                props.setProductData(res);
+                props.setIsLoading(false);
+                props.setTotalPages(res?.totalPages)
+                
+               // window.scrollTo(0, 0);
+            })
+        }
+
+    useEffect(() => {
+        filters.page = props.page;
+        filterData();
+
+    }, [filters, props.page])
+
+    useEffect(() => {
+        setFilters((prev) => ({
+            ...prev,
+            minPrice: price[0],
+            maxPrice: price[1]
+        }))
+    }, []);
+
+    useEffect(() => {
+    if (filters) {
+        filterData();   // fresh filters bhejne
+    }
+}, []);
+
 
 
     return (
         <aside className='sidebar py-3'>
+
             <div className='box'>
                 <h3 className='mb-3 text-[16px] font-[500] flex items-center pr-5'>Shop by Category
                     <Button className='!w-[30px] !h-[30px] !min-w-[30px] !rounded-full !ml-auto  !text-black' onClick={() => setIsOpenCategoryFilter(!isOpenCategoryFilter)}>
@@ -33,14 +146,14 @@ const Sidebar = () => {
                 <Collapse isOpened={isOpenCategoryFilter}>
 
                     <div className='scroll px-3 relative -left-[10px]'>
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Fashion" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Electronics" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Bag" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Footwear" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Groceries" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Beauty" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Wellness" className='w-full' />
-                        <FormControlLabel control={<Checkbox disableRipple />} label="Jewellery" className='w-full' />
+                        {
+                            context?.catData.length !== 0 && context?.catData?.map((item, index) => {
+                                return (
+                                    <FormControlLabel key={index} value={item?._id} control={<Checkbox disableRipple />} checked={filters?.catId?.includes(item?._id)} label={item?.name} onChange={() => handleCheckboxChange('catId', item?._id)} className='w-full' />
+                                )
+                            })
+                        }
+
                     </div>
                 </Collapse>
             </div>
@@ -90,13 +203,19 @@ const Sidebar = () => {
                     Filter By Price
                 </h3>
 
-                <RangeSlider />
+                <RangeSlider
+                    value={price}
+                    onInput={setPrice}
+                    min={100}
+                    max={60000}
+                    step={5}
+                />
                 <div className='flex pt-4 pb-2 priceRange'>
                     <span className='text-[13px]'>
-                        From: <strong className='text-dark'>Rs: {100}</strong>
+                        From: <strong className='text-dark'>Rs: {price[0]}</strong>
                     </span>
                     <span className='ml-auto text-[13px]'>
-                        From: <strong className='text-dark'>Rs: {5000}</strong>
+                        From: <strong className='text-dark'>Rs: {price[1]}</strong>
                     </span>
 
                 </div>

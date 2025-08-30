@@ -94,6 +94,7 @@ function App() {
       if (res?.error === false) {
         setCatData(res?.data)
         // console.log(res?.data)
+        
       }
     })
 

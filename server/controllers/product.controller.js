@@ -862,3 +862,54 @@ export async function updateProduct(req, res) {
     }
 }
 
+export async function filters(req, res) {
+    const { catId, subCatId, thirdsubCatId, minPrice, maxPrice, rating, page, limit } = req.body;
+
+    const filters = {}
+
+    if (catId?.length) {
+        filters.catId = { $in: catId }
+    }
+
+    if (subCatId?.length) {
+        filters.subCatId = { $in: subCatId }
+    }
+
+    if (thirdsubCatId?.length) {
+        filters.thirdsubCatId = { $in: thirdsubCatId }
+    }
+
+    if (minPrice || maxPrice) {
+        filters.price = { $gte: +minPrice || 0, $lte: +maxPrice || Infinity }
+    }
+
+    if (rating?.length) {
+        filters.rating = { $in: rating }
+    }
+
+    try {
+        const products = await ProductModel.find(filters)
+            .populate("category")
+            .skip((page - 1) * limit)
+            .limit(parseInt(limit));
+
+        const total = await ProductModel.countDocuments(filters);
+
+        return res.status(200).json({
+            error: false,
+            success: true,
+            products: products,
+            total: total,
+            page: parseInt(page),
+            totalPages: Math.ceil(total / limit)
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Internal server error",
+            error: true,
+            success: false
+        });
+    }
+
+}

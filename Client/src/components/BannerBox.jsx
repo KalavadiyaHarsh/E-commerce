@@ -27,7 +27,7 @@ const BannerBox = (props) => {
                     {props?.item?.bannerTitle || "Sample Product"}
                 </h2>
                 <span className="text-[20px] text-primary font-[600]">
-                    &#x20b9;{props?.item?.price || "$129.00"}
+                    &#x20b9;{props?.item?.price}
                 </span>
                 <div>
                     <Link 

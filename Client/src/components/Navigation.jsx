@@ -51,7 +51,7 @@ const Navigation = () => {
                                 context?.catData?.length !== 0 && context?.catData.map((cat, index) => {
                                     return (
                                         <li className='list-none relative' key={index}>
-                                            <Link to={"/productListing"} className='link transition text-[14px] font-[500]'><Button>{cat?.name}</Button></Link>
+                                            <Link to={`/productListing?catId=${cat?._id}`} className='link transition text-[14px] font-[500]'><Button>{cat?.name}</Button></Link>
 
                                             {
                                                 cat?.children?.length !== 0 && (
@@ -60,7 +60,7 @@ const Navigation = () => {
                                                             {cat.children.map((subCat, subIndex) => {
                                                                 return (
                                                                     <li className='list-none w-full' key={subIndex}>
-                                                                        <Link to={"/"} className='w-full'>
+                                                                        <Link to={`/productListing?subCatId=${subCat?._id}`} className='w-full'>
                                                                             <Button className='!text-black w-full !text-left !justify-start !rounded-none'>
                                                                                 {subCat?.name}
                                                                             </Button>
@@ -74,7 +74,7 @@ const Navigation = () => {
                                                                                         subCat.children.map((thirdSubCat, thirdSubIndex) => {
                                                                                             return (
                                                                                                 <li className='list-none w-full' key={thirdSubIndex}>
-                                                                                                    <Link to={"/"} className='w-full'>
+                                                                                                    <Link to={`/productListing?thirdsubCatId=${thirdSubCat?._id}`} className='w-full'>
                                                                                                         <Button className='!text-black w-full!text-left!justify-start!rounded-none'>
                                                                                                             {thirdSubCat?.name}
                                                                                                         </Button>
