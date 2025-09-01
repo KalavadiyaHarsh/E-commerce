@@ -102,7 +102,7 @@ function App() {
       if (res?.error === false) {
         //setCatData(res?.data)
         setProductData(res?.products)
-        console.log(res?.products)
+       // console.log(res?.products)
       }
     })
 

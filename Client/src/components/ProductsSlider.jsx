@@ -11,9 +11,6 @@ import ProductItem from './ProductItem';
 const ProductsSlider = (props) => {
     return (
         <div className='productSlider py-5 overflow-x-auto'>
-            {
-                console.log(props?.data)
-            }
             <Swiper
                 slidesPerView={'auto'}
                 spaceBetween={10}

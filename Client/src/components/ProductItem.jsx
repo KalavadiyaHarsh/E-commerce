@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { IoGitCompareOutline } from "react-icons/io5";
-import { MdZoomOutMap } from "react-icons/md";
+import { MdOutlineShoppingCart, MdZoomOutMap } from "react-icons/md";
 import Tooltip from '@mui/material/Tooltip';
 import { MyContext } from '../App';
 
@@ -48,7 +48,7 @@ function ProductItem(props) {
                     </Tooltip>
 
                     <Tooltip title="Zoom" placement="left">
-                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] rounded-full !bg-white text-black hover:!bg-primary hover:!text-white' onClick={() => context.handleOpenProductDetailsModal(true , props?.item)}>
+                        <Button className='!w-[35px] !h-[35px] !min-w-[35px] rounded-full !bg-white text-black hover:!bg-primary hover:!text-white' onClick={() => context.handleOpenProductDetailsModal(true, props?.item)}>
                             <MdZoomOutMap className='text-[18px] text-black hover:text-white' />
                         </Button>
                     </Tooltip>
@@ -57,16 +57,16 @@ function ProductItem(props) {
 
             </div>
 
-            <div className='info p-3 py-5 bg-[#f1f1f1]'>
+            <div className='info p-3 py-5 bg-[#f1f1f1] relative group'>
                 <h6 className='text-[13px] font-semibold'><Link to={"/"} className='link transition-all'>{props?.item?.name}</Link></h6>
                 <h3 className='text-[14px] title mt-1 mb-1 font-[500] text-black'>
                     <Link to={"/"} className='link transition-all'>
                         {
                             props?.item?.description
                                 ?.split(" ")               // break into words
-                                .slice(0, 7)              // take first 10
+                                .slice(0, 9)              // take first 9
                                 .join(" ") +               // join back
-                            (props?.item?.description?.split(" ").length > 7 ? "..." : "")
+                            (props?.item?.description?.split(" ").length > 9 ? "..." : "")
                         }
                     </Link>
                 </h3>
@@ -76,6 +76,17 @@ function ProductItem(props) {
                     <span className='oldPrice line-through text-gray-500 text-[15px] font-[500]'>&#x20b9;{props?.item?.oldPrice}</span>
                     <span className='price text-primary text-[15px] font-[600]'>&#x20b9;{props?.item?.price}</span>
                 </div>
+
+
+                {/* Add to Cart */}
+                <Button
+                    variant="outlined"
+                    className="btn-Org !w-full !rounded-md !py-2 !mt-2 flex items-center justify-center gap-2"
+                    size="small"
+                >
+                    <MdOutlineShoppingCart className="text-[18px]" />
+                    ADD TO CART
+                </Button>
 
 
             </div>

@@ -11,6 +11,8 @@ import { IoMdLogOut } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa";
 import { Collapse } from 'react-collapse';
 import { MyContext } from '../App';
+import { PiFlagBannerFill } from "react-icons/pi";
+
 
 
 
@@ -151,7 +153,7 @@ const Sidebar = () => {
 
           <li>
             <Button className='!w-full !capitalize !py-2 hover:!bg-[#f1f1f1] !justify-start gap-3 !text-[14px] !text-[rgba(0,0,0,0.8)] !font-[600] items-center' onClick={() => isOpenSubMenu(4)}>
-              <SiProducthunt className='text-[18px]' />
+              <PiFlagBannerFill  className='text-[18px]' />
               <span> Banners </span>
               <span className='ml-auto w-[30px] h-[30px] flex items-center justify-center'><FaAngleDown className={`transition-all ${submenuIndex === 4 ? 'rotate-180' : ''}`} /></span>
             </Button>

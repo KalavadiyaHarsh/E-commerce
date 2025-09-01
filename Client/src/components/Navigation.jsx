@@ -75,7 +75,7 @@ const Navigation = () => {
                                                                                             return (
                                                                                                 <li className='list-none w-full' key={thirdSubIndex}>
                                                                                                     <Link to={`/productListing?thirdsubCatId=${thirdSubCat?._id}`} className='w-full'>
-                                                                                                        <Button className='!text-black w-full!text-left!justify-start!rounded-none'>
+                                                                                                        <Button className='!text-black w-full !text-left !justify-start !rounded-none'>
                                                                                                             {thirdSubCat?.name}
                                                                                                         </Button>
                                                                                                     </Link>

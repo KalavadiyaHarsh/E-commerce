@@ -61,54 +61,63 @@ const Sidebar = (props) => {
 
 
     useEffect(() => {
-
         const url = window.location.href;
         const queryParameters = new URLSearchParams(location.search);
 
         if (url.includes("catId")) {
             const categoryId = queryParameters.get("catId");
-            const catArr = [];
-            catArr.push(categoryId);
-            filters.catId = catArr;
-            filters.subCatId = [];
-            filters.thirdsubCatId = [];
-            filters.rating = [];
+            setFilters({
+                catId: [categoryId],
+                subCatId: [],
+                thirdsubCatId: [],
+                rating: [],
+                minPrice: '',
+                maxPrice: '',
+                page: 1,
+                
+            });
         }
 
         if (url.includes("subCatId")) {
             const subcategoryId = queryParameters.get("subCatId");
-            const subcatArr = [];
-            subcatArr.push(subcategoryId);
-            filters.subCatId = subcatArr;
-            filters.catId = [];
-            filters.thirdsubCatId = [];
-            filters.rating = [];
+            setFilters({
+                catId: [],
+                subCatId: [subcategoryId],
+                thirdsubCatId: [],
+                rating: [],
+                minPrice: '',
+                maxPrice: '',
+                page: 1,
+                
+            });
         }
 
         if (url.includes("thirdsubCatId")) {
             const thirdsubcategoryId = queryParameters.get("thirdsubCatId");
-            const thirdsubcatArr = [];
-            thirdsubcatArr.push(thirdsubcategoryId);
-            filters.thirdsubCatId = thirdsubcatArr;
-            filters.catId = [];
-            filters.subCatId = [];
-            filters.rating = [];
+            setFilters({
+                catId: [],
+                subCatId: [],
+                thirdsubCatId: [thirdsubcategoryId],
+                rating: [],
+                minPrice: '',
+                maxPrice: '',
+                page: 1,
+               
+            });
         }
+    }, [location]);
 
-        filters.page = 1;
 
-    }, [location])
+    const filterData = () => {
+        props.setIsLoading(true);
+        postData(`/api/product/filters`, filters).then((res) => {
+            props.setProductData(res);
+            props.setIsLoading(false);
+            props.setTotalPages(res?.totalPages)
 
-     const filterData = () => {
-            props.setIsLoading(true);
-            postData(`/api/product/filters`, filters).then((res) => {
-                props.setProductData(res);
-                props.setIsLoading(false);
-                props.setTotalPages(res?.totalPages)
-                
-               // window.scrollTo(0, 0);
-            })
-        }
+            // window.scrollTo(0, 0);
+        })
+    }
 
     useEffect(() => {
         filters.page = props.page;
@@ -120,20 +129,19 @@ const Sidebar = (props) => {
         setFilters((prev) => ({
             ...prev,
             minPrice: price[0],
-            maxPrice: price[1]
-        }))
-    }, []);
+            maxPrice: price[1],
+            page: 1  // reset to first page when filter changes
+        }));
+    }, [price]);
 
-    useEffect(() => {
-    if (filters) {
-        filterData();   // fresh filters bhejne
-    }
-}, []);
+    // useEffect(() => {
+    //     filterData(); // fresh load on mount
+    // }, []);
 
 
 
     return (
-        <aside className='sidebar py-3'>
+        <aside className='sidebar py-3 sticky top-[130px] z-[50]'>
 
             <div className='box'>
                 <h3 className='mb-3 text-[16px] font-[500] flex items-center pr-5'>Shop by Category
@@ -206,7 +214,7 @@ const Sidebar = (props) => {
                 <RangeSlider
                     value={price}
                     onInput={setPrice}
-                    min={100}
+                    min={0}
                     max={60000}
                     step={5}
                 />
@@ -226,25 +234,34 @@ const Sidebar = (props) => {
                     Filter By Rating
                 </h3>
 
-                <div className='w-full'>
-                    <Rating name="size-small" defaultValue={5} size="small" readOnly />
-                </div>
-                <div className='w-full'>
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
-                </div>
-                <div className='w-full'>
-                    <Rating name="size-small" defaultValue={3} size="small" readOnly />
-                </div>
-                <div className='w-full'>
-                    <Rating name="size-small" defaultValue={2} size="small" readOnly />
-                </div>
-                <div className='w-full'>
-                    <Rating name="size-small" defaultValue={1} size="small" readOnly />
+                <div className="flex flex-col gap-2 px-2">
+                    {[5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1].map((rating) => (
+                        <div key={rating} className="flex items-center">
+                            <FormControlLabel
+                                value={rating}
+                                control={<Checkbox disableRipple />}
+                                checked={filters?.rating?.includes(rating)}
+                                onChange={() => handleCheckboxChange('rating', rating)}
+                                className=""
+                            />
+
+                            <div className="w-full">
+                                <Rating
+                                    name={`rating-${rating}`}
+                                    value={rating}
+                                    precision={0.5} 
+                                    size="small"
+                                    readOnly
+                                />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
+
 
         </aside>
     );
 }
 
-export default Sidebar;
+export default Sidebar; 1

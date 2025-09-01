@@ -1,7 +1,7 @@
 import { Router } from "express";
 import auth from '../middleware/auth.js';
 import upload from '../middleware/multer.js';
-import { createProduct, deleteMultipleProduct, deleteProduct, filters, getAllFeatureProducts, getAllProducts, getAllProductsByCatId, getAllProductsByCatName, getAllProductsByPrice, getAllProductsByRating, getAllProductsBySubCatId, getAllProductsBySubCatName, getAllProductsByThirdLavelCatId, getAllProductsByThirdLavelCatName, getProduct, getProductsCount, removeImageFromCloudinary, updateProduct, uploadImages } from "../controllers/product.controller.js";
+import { createProduct, deleteMultipleProduct, deleteProduct, filters, getAllFeatureProducts, getAllProducts, getAllProductsByCatId, getAllProductsByCatName, getAllProductsByPrice, getAllProductsByRating, getAllProductsBySubCatId, getAllProductsBySubCatName, getAllProductsByThirdLavelCatId, getAllProductsByThirdLavelCatName, getProduct, getProductsCount, removeImageFromCloudinary, sortBy, updateProduct, uploadImages } from "../controllers/product.controller.js";
 
 
 const productRouter = Router();
@@ -29,6 +29,7 @@ productRouter.get('/:id',getProduct)
 //productRouter.delete('/deleteImage',auth,removeImageFromCloudinary)
 productRouter.delete('/deleteImage',removeImageFromCloudinary) //temp
 productRouter.post('/filters', filters);
+productRouter.post('/sortBy', sortBy)
 
 //productRouter.put('/updateProduct',auth,updateProduct)
 productRouter.put('/:id',updateProduct) //temp
