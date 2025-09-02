@@ -144,6 +144,67 @@ export async function verifyEmailController(req, res) {
 }
 
 
+export async function authWithGoogle(req, res) {
+    const { name, email, avatar, mobile, role } = req.body;
+
+    try {
+        let existingUser = await UserModel.findOne({ email });
+
+        if (!existingUser) {
+            // Create new user
+            const newUser = await UserModel.create({
+                name: name,
+                mobile: mobile,
+                email: email,
+                password: "null",  // allow null for Google users
+                avatar: avatar,
+                role: role,
+                verify_email: true,
+                signUpWithGoogle: true
+            });
+
+            existingUser = newUser; // so that next code works the same
+        }
+
+        // Generate tokens
+        const accesstoken = await generatedAccessToken(existingUser._id);
+        const refreshToken = await generatedRefreshToken(existingUser._id);
+
+        // Update login date + save tokens
+        await UserModel.findByIdAndUpdate(existingUser._id, {
+            last_login_date: new Date(),
+            access_token: accesstoken,
+            refresh_token: refreshToken
+        });
+
+
+        // Set cookies
+        const cookiesOption = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None"
+        };
+
+        res.cookie('accesstoken', accesstoken, cookiesOption);
+        res.cookie('refreshToken', refreshToken, cookiesOption);
+
+        return res.json({
+            message: "Login successfully",
+            error: false,
+            success: true,
+            data: { accesstoken, refreshToken }
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
+
 export async function loginUserController(req, res) {
     try {
         const { email, password } = req.body;

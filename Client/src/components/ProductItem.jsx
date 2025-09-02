@@ -64,9 +64,9 @@ function ProductItem(props) {
                         {
                             props?.item?.description
                                 ?.split(" ")               // break into words
-                                .slice(0, 9)              // take first 9
+                                .slice(0, 10)              // take first 10
                                 .join(" ") +               // join back
-                            (props?.item?.description?.split(" ").length > 9 ? "..." : "")
+                            (props?.item?.description?.split(" ").length > 10 ? "..." : "")
                         }
                     </Link>
                 </h3>
