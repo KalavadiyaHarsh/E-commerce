@@ -933,14 +933,32 @@ const sortItems = (products, sortBy, order) => {
     });
 };
 export async function sortBy(req, res) {
-    const { products, sortBy, order } = req.body;
-    const sortedItems = sortItems([...products?.products], sortBy, order);
+    try {
+        const { products, sortBy: sortKey, order } = req.body;
 
-    return res.status(200).json({
+        if (!products || !Array.isArray(products)) {
+            return res.status(400).json({
+                error: true,
+                success: false,
+                message: "Invalid products data",
+            });
+        }
+
+        const sortedItems = sortItems([...products], sortKey, order);
+
+        return res.status(200).json({
             error: false,
             success: true,
             products: sortedItems,
             page: 0,
-            totalPages: 0
-        })
+            totalPages: 0,
+        });
+    } catch (err) {
+        return res.status(500).json({
+            error: true,
+            success: false,
+            message: "Internal server error",
+            details: err.message,
+        });
+    }
 }

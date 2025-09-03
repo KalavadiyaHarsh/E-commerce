@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import ProductListing from './pages/ProductListing'
 import Footer from './components/Footer';
@@ -9,13 +9,9 @@ import { createContext } from 'react'
 import { IoClose } from "react-icons/io5";
 
 
-
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
-// import DialogTitle from '@mui/material/DialogTitle';
 import ProductZoom from './components/ProductZoom'
 import ProductDetailsComponent from './components/ProductDetails'
 import Login from './pages/Login'

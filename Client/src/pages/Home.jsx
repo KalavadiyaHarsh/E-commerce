@@ -6,7 +6,6 @@ import AdsBannerSlider from '../components/AdsBannerSlider';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import ProductsSlider from '../components/ProductsSlider';
 import { MyContext } from '../App';
 import { fetchDataFromApi } from '../utils/api';
