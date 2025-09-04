@@ -105,7 +105,7 @@ const ProductDetailsComponent = (props) => {
                             <QtyBox />
                         </div>
 
-                        <Button className='btn !bg-primary !text-white w-44 !gap-3'><IoCartOutline className='text-[22px]' />Add to Cart</Button>
+                        <Button className='btn-Org w-44 !gap-3'><IoCartOutline className='text-[22px]' />Add to Cart</Button>
 
                     </div>
 

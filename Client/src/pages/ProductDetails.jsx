@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ProductZoom from '../components/ProductZoom';
 import Rating from '@mui/material/Rating';
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import ProductsSlider from '../components/ProductsSlider';
 import ProductDetailsComponent from '../components/ProductDetails';
+import { fetchDataFromApi } from '../utils/api';
 
 
 
 const ProductDetails = () => {
 
   const [activeTab, setActiveTab] = useState(0)
+  const [productData, setProductData] = useState()
+
+  const {id} = useParams();
+
+
+  useEffect(()=>{
+    fetchDataFromApi(`/api/product/${id}`).then((res)=>{
+      if(res?.error === false){
+        setProductData(res.product)
+      }
+      
+    })
+
+  },[id])
 
   return (
     <>
@@ -33,11 +48,11 @@ const ProductDetails = () => {
       <section className='bg-white py-5'>
         <div className='container flex gap-8 items-center'>
           <div className='productZommContainer w-[40%] '>
-            <ProductZoom />
+            <ProductZoom images={productData?.images} />
           </div>
 
           <div className='productContent w-[60%] pl-10'>
-            <ProductDetailsComponent />
+            <ProductDetailsComponent  data={productData}/>
           </div>
         </div>
 

@@ -177,7 +177,7 @@ const ProductZoom = (props) => {
     if (props?.images?.length > 0) {
       setActiveImage(props.images[0]);
     }
-  }, []);
+  }, [props?.images]);
 
   return (
     <>
