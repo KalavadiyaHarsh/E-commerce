@@ -8,26 +8,37 @@ import TextField from '@mui/material/TextField';
 import ProductsSlider from '../components/ProductsSlider';
 import ProductDetailsComponent from '../components/ProductDetails';
 import { fetchDataFromApi } from '../utils/api';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Reviews from './Reviews';
 
 
 const ProductDetails = () => {
 
   const [activeTab, setActiveTab] = useState(0)
   const [productData, setProductData] = useState()
+  const [isLoading, setIsLoading] = useState(false);
 
-  const {id} = useParams();
+  const { id } = useParams();
 
 
-  useEffect(()=>{
-    fetchDataFromApi(`/api/product/${id}`).then((res)=>{
-      if(res?.error === false){
+
+
+  useEffect(() => {
+    setIsLoading(true)
+    fetchDataFromApi(`/api/product/${id}`).then((res) => {
+      if (res?.error === false) {
         setProductData(res.product)
+        setTimeout(() => {
+
+          setIsLoading(false)
+        }, 500);
       }
-      
+
+      window.scrollTo(0, 0)
+
     })
 
-  },[id])
+  }, [id])
 
   return (
     <>
@@ -45,16 +56,28 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <section className='bg-white py-5'>
-        <div className='container flex gap-8 items-center'>
-          <div className='productZommContainer w-[40%] '>
-            <ProductZoom images={productData?.images} />
-          </div>
 
-          <div className='productContent w-[60%] pl-10'>
-            <ProductDetailsComponent  data={productData}/>
-          </div>
-        </div>
+
+      <section className='bg-white py-5'>
+        {
+          isLoading === true
+            ?
+            <div className='flex items-center justify-center min-h-[300px]'>
+              <CircularProgress color="inherit" />
+            </div>
+            :
+            <div className='container flex gap-8 items-center'>
+              <div className='productZommContainer w-[40%] '>
+                <ProductZoom images={productData?.images} />
+              </div>
+
+              <div className='productContent w-[60%] pl-10'>
+                <ProductDetailsComponent data={productData} />
+              </div>
+            </div>
+        }
+
+
 
 
 
@@ -144,112 +167,10 @@ const ProductDetails = () => {
           {
             activeTab === 2 &&
             <div className='shadow-md w-[80%] p-5 rounded-md mt-3'>
-              <div className='w-full productReviewsContainer'>
-                <h2 className='text-[18px]'>Customer questions & answers</h2>
-
-                <div className='reviwescroll w-full max-h-[300px] overflow-y-scroll overflow-x-hidden'>
-                  <div className='review w-ful pb-5 pr-5 border-b-[1px] border-[rgba(0,0,0,0.1)] flex items-center justify-between'>
-                    <div className='info w-[60%] flex items-center gap-2 mt-3'>
-                      <div className='img w-[80px] h-[80px] overflow-hidden rounded-full'>
-                        <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFufGVufDB8fDB8fHww" alt="" className='w-full h-full object-cover' />
-                      </div>
-
-                      <div className='w-[80%]'>
-                        <h4 className='text-[16px]'>Rinku Verma</h4>
-                        <h5 className='text-[13px] mb-0'>2025-07-01</h5>
-                        <p className='mt-0 mb-0'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, id tenetur recusandae autem inventore commodi et quis ad laudantium?</p>
-                      </div>
-
-                    </div>
-
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
-
-                  </div>
-
-                  <div className='review w-ful pb-5 pr-5 border-b-[1px] border-[rgba(0,0,0,0.1)] flex items-center justify-between'>
-                    <div className='info w-[60%] flex items-center gap-2 mt-3'>
-                      <div className='img w-[80px] h-[80px] overflow-hidden rounded-full'>
-                        <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFufGVufDB8fDB8fHww" alt="" className='w-full h-full object-cover' />
-                      </div>
-
-                      <div className='w-[80%]'>
-                        <h4 className='text-[16px]'>Rinku Verma</h4>
-                        <h5 className='text-[13px] mb-0'>2025-07-01</h5>
-                        <p className='mt-0 mb-0'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, id tenetur recusandae autem inventore commodi et quis ad laudantium?</p>
-                      </div>
-
-                    </div>
-
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
-
-                  </div>
-
-                  <div className='review w-ful pb-5 pr-5 border-b-[1px] border-[rgba(0,0,0,0.1)] flex items-center justify-between'>
-                    <div className='info w-[60%] flex items-center gap-2 mt-3'>
-                      <div className='img w-[80px] h-[80px] overflow-hidden rounded-full'>
-                        <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFufGVufDB8fDB8fHww" alt="" className='w-full h-full object-cover' />
-                      </div>
-
-                      <div className='w-[80%]'>
-                        <h4 className='text-[16px]'>Rinku Verma</h4>
-                        <h5 className='text-[13px] mb-0'>2025-07-01</h5>
-                        <p className='mt-0 mb-0'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, id tenetur recusandae autem inventore commodi et quis ad laudantium?</p>
-                      </div>
-
-                    </div>
-
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
-
-                  </div>
-
-                  <div className='review w-ful pb-5 pr-5 border-b-[1px] border-[rgba(0,0,0,0.1)] flex items-center justify-between'>
-                    <div className='info w-[60%] flex items-center gap-2 mt-3'>
-                      <div className='img w-[80px] h-[80px] overflow-hidden rounded-full'>
-                        <img src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5kaWFufGVufDB8fDB8fHww" alt="" className='w-full h-full object-cover' />
-                      </div>
-
-                      <div className='w-[80%]'>
-                        <h4 className='text-[16px]'>Rinku Verma</h4>
-                        <h5 className='text-[13px] mb-0'>2025-07-01</h5>
-                        <p className='mt-0 mb-0'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, id tenetur recusandae autem inventore commodi et quis ad laudantium?</p>
-                      </div>
-
-                    </div>
-
-                    <Rating name="size-small" defaultValue={4} size="small" readOnly />
-
-                  </div>
-                </div>
-
-                <br />
-
-                <div className='reviewForm bg-[#fafafa] p-4 rounded-md'>
-                  <h2 className='text-[18px]'>Add a review</h2>
-
-                  <form className='w-full mt-4'>
-                    <TextField
-                      id="outlined-multiline-static"
-                      label="Write a Review"
-                      className='w-full'
-                      multiline
-                      rows={5}
-                    />
-                    <br /><br />
-                    <Rating name="size-small" defaultValue={4} size="small" />
-
-
-                    <div className='flex items-center'>
-                      <br />
-                      <br />
-                      <Button className=' !bg-primary !text-white '>Submit Review</Button>
-                    </div>
-                  </form>
-
-
-                </div>
-
-
-              </div>
+              {
+                productData?.length!==0 && <Reviews productId={productData?._id} />
+              }
+                
             </div>
           }
 
@@ -257,8 +178,8 @@ const ProductDetails = () => {
       </section>
 
       <div className='container pt-5'>
-          <h2 className='text-[20px] font-[600] uppercase'>RELATED  Products</h2>
-          <ProductsSlider items={5}/>
+        <h2 className='text-[20px] font-[600] uppercase'>RELATED  Products</h2>
+        <ProductsSlider items={5} />
 
       </div>
     </>
