@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { Link, useParams } from 'react-router-dom';
 import ProductZoom from '../components/ProductZoom';
-import Rating from '@mui/material/Rating';
-import { Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import ProductsSlider from '../components/ProductsSlider';
 import ProductDetailsComponent from '../components/ProductDetails';
 import { fetchDataFromApi } from '../utils/api';
@@ -17,8 +14,23 @@ const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [productData, setProductData] = useState()
   const [isLoading, setIsLoading] = useState(false);
+  const [reviewsCount, setReviewsCount] = useState(0)
+  const [reletedProductsData, setReletedProductsData] = useState([])
+
 
   const { id } = useParams();
+
+  const reviewSec = useRef();
+
+  useEffect(() => {
+    fetchDataFromApi(`/api/user/getReviews?productId=${id}`).then(
+      (res) => {
+        if (res?.error === false) {
+          setReviewsCount(res.reviews.length)
+        }
+      }
+    );
+  }, [reviewsCount])
 
 
 
@@ -27,9 +39,15 @@ const ProductDetails = () => {
     setIsLoading(true)
     fetchDataFromApi(`/api/product/${id}`).then((res) => {
       if (res?.error === false) {
-        setProductData(res.product)
-        setTimeout(() => {
+        setProductData(res?.product)
 
+        fetchDataFromApi(`/api/product/getAllProductsBySubCatId/${res?.product?.subCatId}`).then((res) => {
+         if(res?.error === false){
+          const filterData = res?.data?.filter((item) => item._id !== id);
+           setReletedProductsData(filterData)
+         }
+        })
+        setTimeout(() => {
           setIsLoading(false)
         }, 500);
       }
@@ -39,6 +57,17 @@ const ProductDetails = () => {
     })
 
   }, [id])
+
+
+  const gotoReviews = () => {
+    window.scrollTo({
+      top: reviewSec?.current.offsetTop - 170,
+      behavior: 'smooth',
+    })
+
+    setActiveTab(1);
+
+  }
 
   return (
     <>
@@ -72,7 +101,7 @@ const ProductDetails = () => {
               </div>
 
               <div className='productContent w-[60%] pl-10'>
-                <ProductDetailsComponent data={productData} />
+                <ProductDetailsComponent data={productData} reviewsCount={reviewsCount} gotoReviews={gotoReviews} />
               </div>
             </div>
         }
@@ -84,8 +113,7 @@ const ProductDetails = () => {
         <div className='container py-10'>
           <div className='flex items-center gap-5'>
             <span className={`link text-[18px] cursor-pointer font-[500]} ${activeTab === 0 && 'text-primary'}`} onClick={() => setActiveTab(0)}>Description</span>
-            <span className={`link text-[18px] cursor-pointer font-[500]} ${activeTab === 1 && 'text-primary'}`} onClick={() => setActiveTab(1)}>product Details</span>
-            <span className={`link text-[18px] cursor-pointer font-[500]} ${activeTab === 2 && 'text-primary'}`} onClick={() => setActiveTab(2)}>Reviws (5)</span>
+            <span className={`link text-[18px] cursor-pointer font-[500]} ${activeTab === 1 && 'text-primary'}`} onClick={() => setActiveTab(1)} ref={reviewSec}>Reviws ({reviewsCount})</span>
           </div>
 
 
@@ -106,82 +134,25 @@ const ProductDetails = () => {
 
           {
             activeTab === 1 &&
-            <div className='shadow-md w-full p-5 rounded-md mt-3'>
-
-              <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-300">
-                  <thead>
-                    <tr class="bg-gray-200 text-gray-700 text-left">
-                      <th class="py-3 px-4 border-b border-gray-300">Specification</th>
-                      <th class="py-3 px-4 border-b border-gray-300">Details</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-gray-800">
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Stand Up</td>
-                      <td class="py-2 px-4 border-b border-gray-300">35″L x 24″W x 37-45″H (front to back wheel)</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Folded (w/o wheels)</td>
-                      <td class="py-2 px-4 border-b border-gray-300">32.5″L x 18.5″W x 16.5″H</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Folded (w/ wheels)</td>
-                      <td class="py-2 px-4 border-b border-gray-300">32.5″L x 24″W x 18.5″H</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Door Pass Through</td>
-                      <td class="py-2 px-4 border-b border-gray-300">24″</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Frame</td>
-                      <td class="py-2 px-4 border-b border-gray-300">Aluminum</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Weight (w/o wheels)</td>
-                      <td class="py-2 px-4 border-b border-gray-300">20 LBS</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Weight Capacity</td>
-                      <td class="py-2 px-4 border-b border-gray-300">60 LBS</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Width</td>
-                      <td class="py-2 px-4 border-b border-gray-300">24″</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4 border-b border-gray-300">Handle height (ground to handle)</td>
-                      <td class="py-2 px-4 border-b border-gray-300">37-45″</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2 px-4">Wheels</td>
-                      <td class="py-2 px-4">12″ air / wide track slick tread</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          }
-
-          {
-            activeTab === 2 &&
             <div className='shadow-md w-[80%] p-5 rounded-md mt-3'>
               {
-                productData?.length!==0 && <Reviews productId={productData?._id} />
+                productData?.length !== 0 && <Reviews productId={productData?._id} setReviewsCount={setReviewsCount} />
               }
-                
+
             </div>
           }
 
         </div>
       </section>
 
-      <div className='container pt-5'>
-        <h2 className='text-[20px] font-[600] uppercase'>RELATED  Products</h2>
-        <ProductsSlider items={5} />
+      {
+        reletedProductsData?.length !== 0 &&
+        <div className='container pt-5'>
+          <h2 className='text-[20px] font-[600] uppercase'>RELATED  Products</h2>
+          <ProductsSlider items={5} data={reletedProductsData} />
 
-      </div>
+        </div>
+      }
     </>
   );
 }
